@@ -1,0 +1,16 @@
+flask==3.0.0
+flask-cors==4.0.0
+flask-socketio==5.3.6
+scikit-learn==1.4.0
+xgboost==2.0.3
+lightgbm==4.3.0
+shap==0.44.1
+imbalanced-learn==0.11.0
+optuna==3.5.0
+pandas==2.1.4
+numpy==1.26.3
+transformers==4.37.2
+torch==2.1.2
+nltk==3.8.1
+gunicorn==21.2.0
+python-dotenv==1.0.0
