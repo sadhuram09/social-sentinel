@@ -12,10 +12,12 @@ def create_app():
     from app.routes.analyze import analyze_bp
     from app.routes.stats import stats_bp
     from app.routes.stream import stream_bp
+    from app.routes.health import health_bp
 
     app.register_blueprint(analyze_bp, url_prefix='/api')
     app.register_blueprint(stats_bp, url_prefix='/api')
     app.register_blueprint(stream_bp, url_prefix='/api')
+    app.register_blueprint(health_bp)  # no prefix — platform probes hit / and /health
 
     socketio.init_app(app)
     return app
