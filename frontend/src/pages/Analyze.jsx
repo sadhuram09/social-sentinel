@@ -21,31 +21,20 @@ export default function Analyze() {
     if (!text.trim()) return
     setLoading(true); setError(null); setResult(null)
     try {
-      const res = await axios.post('${BASE_URL}/api/analyze', { text })
+      const res = await axios.post(`${BASE_URL}/api/analyze`, { text })
       setResult(res.data)
     } catch (e) {
-      // Show mock result if backend isn't up yet
-      setResult(getMockResult(text))
+      // Surface the real failure. Never substitute fabricated scores —
+      // an unreachable backend must look unreachable, not like a result.
+      setError(
+        e.response?.data?.error ||
+        e.message ||
+        'Could not reach the analysis service.'
+      )
     } finally {
       setLoading(false)
     }
   }
-
-  const getMockResult = (text) => ({
-    bullying_score: 0.87,
-    depression_score: 0.74,
-    causal_link: 0.81,
-    risk_level: 'HIGH',
-    bullying_segments: [text.split('\n')[0]],
-    depression_segments: [text.split('\n').slice(-2).join('\n')],
-    shap_features: { 'threat_language': 0.34, 'isolation': 0.28, 'hopelessness': 0.22, 'self_blame': 0.16 },
-    timeline: [
-      { time: 'T+0', type: 'bullying', score: 0.87 },
-      { time: 'T+5m', type: 'bullying', score: 0.79 },
-      { time: 'T+1h', type: 'depression', score: 0.62 },
-      { time: 'T+2h', type: 'depression', score: 0.74 },
-    ]
-  })
 
   return (
     <div style={{ minHeight: '100vh', padding: '100px 40px 80px', maxWidth: 1000, margin: '0 auto' }}>
@@ -99,6 +88,36 @@ export default function Analyze() {
             {loading ? '⚡ Analyzing Causal Chain...' : '🔍 Analyze Thread →'}
           </button>
         </div>
+
+        {/* Error state — shown instead of a result when the backend is unreachable */}
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+              className="glass-card"
+              style={{
+                padding: 20, marginBottom: 20,
+                border: '1px solid rgba(255,61,90,0.35)',
+                background: 'rgba(255,61,90,0.06)',
+                display: 'flex', alignItems: 'flex-start', gap: 14,
+              }}
+            >
+              <span style={{ fontSize: 20, lineHeight: 1.2 }}>⚠️</span>
+              <div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#ff3d5a', marginBottom: 6 }}>
+                  Analysis unavailable
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                  {error}
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6 }}>
+                  The backend sleeps after inactivity and can take up to a minute to
+                  wake. Try again in a moment.
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Results */}
         <AnimatePresence>
