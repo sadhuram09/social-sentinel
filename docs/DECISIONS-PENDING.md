@@ -1,9 +1,10 @@
 # DECISIONS PENDING — before Phase 2 coding
 
 **Created:** 2026-08-06 · **Last updated:** 2026-08-06
-**Status:** 2 of 11 resolved (D-1, D-4) · 9 open · **verification TODOs: 2 of 2
+**Status:** 3 of 11 resolved (D-1, D-4, D-11) · 8 open · **verification TODOs: 2 of 2
 resolved ✅** — both confirmed the decision resting on them; database provider is
 **Neon**
+**🟢 Backend is LIVE** on Render at <https://social-sentinel-api.onrender.com>
 **Rule:** every item marked **🔒 NEEDS SIGN-OFF** is your call. I have given a
 recommendation for each, but I will not act on it unilaterally. Items marked
 **🟢 SAFE DEFAULT** I will proceed with unless you say otherwise — they are
@@ -23,7 +24,7 @@ Each entry names what it **blocks**, so the sequence is visible.
 | **D-8** | Which fabricated features get built vs. relabelled vs. removed? | Step 4 | 🔒 |
 | **D-9** | Test strategy and CI | Step 1 | 🟢 |
 | **D-10** | Local dev port + repo location | Step 1 | 🟢 |
-| **D-11** | Does Hugging Face Spaces remain a deploy target? | Step 2 | 🔒 |
+| ~~**D-11**~~ | ~~Does Hugging Face Spaces remain a deploy target?~~ | — | ✅ **RESOLVED** — **Render-only**, HF Spaces dropped, backend live |
 
 ---
 
@@ -525,7 +526,57 @@ Say the word if you want it.
 
 ---
 
-## D-11 — Does Hugging Face Spaces remain a deploy target? 🔒 NEEDS SIGN-OFF
+## ~~D-11~~ — Does Hugging Face Spaces remain a deploy target? ✅ RESOLVED 2026-08-07
+
+> **Decided: Option A — RENDER ONLY. Hugging Face Spaces is dropped.**
+> *(Recorded as a doc note, not an ADR — this is a deployment-target choice, not
+> an architecture decision.)*
+>
+> ### 🟢 The backend is LIVE
+>
+> **<https://social-sentinel-api.onrender.com>** — Render, **native Python** build,
+> free tier.
+>
+> Verified 2026-08-07:
+> - `GET /` → `200` · `{"health":"/health","service":"social-sentinel-api","status":"ok"}`
+> - `GET /health` → `200` · `{"status":"ok","models_ready":false,"detector":"keyword-fallback","models":{"bullying":false,"depression":false}}`
+>
+> ### Service configuration
+>
+> | | |
+> |---|---|
+> | Start command | `gunicorn -w 1 --threads 4 -b 0.0.0.0:$PORT run:app` |
+> | Root Directory | `backend` |
+> | Python | **3.11** on deploy (via `backend/.python-version`); local is 3.12.3 |
+> | Free-tier behaviour | sleeps after ~15 min idle, ~1 min cold start |
+>
+> Keep `-w 1`: `StreamGenerator` is a module-level singleton
+> (`stream_generator.py:116-122`), so extra workers would each spawn one and
+> duplicate the feed.
+>
+> ### What was removed
+>
+> - `backend/Procfile` — Heroku convention, not read by Render
+> - `backend/runtime.txt` — Heroku convention; Render uses `PYTHON_VERSION` or
+>   `.python-version`
+> - `run.py`'s `7860` port default (the HF Spaces value) → now `5000` local,
+>   `$PORT` in deploy
+>
+> Added: `backend/.python-version` (`3.11`), which also resolves `AUDIT.md` **M-2**
+> (the 3.11/3.12 version drift) by standardising on 3.11.
+>
+> ### ⚠️ Supersedes a line in D-2
+>
+> **D-2's recommendation (still open) says to keep the Dockerfile "as a fallback
+> and for HF Spaces." That reason is now void.** The Dockerfile is retained
+> *solely* for the still-open native-vs-Docker choice in D-2 — not as an HF
+> fallback. It was updated to bind `$PORT` correctly regardless.
+>
+> **Consequence accepted:** there is no second live backend. Render's free tier
+> sleeps, so a demo after idle takes ~1 min to wake. Warm it before a viva.
+>
+> The original analysis is retained below for the reasoning trail. **Do not act
+> on it — Option C was recommended and Option A was chosen.**
 
 **Blocks:** step 2 (it changes what "done" means).
 

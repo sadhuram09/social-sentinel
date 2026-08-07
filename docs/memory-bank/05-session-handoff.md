@@ -1,6 +1,7 @@
 # 05 — Session Handoff · START HERE
 
-**Written:** 2026-08-06 (end of session) · **For:** the next session, cold start
+**Written:** 2026-08-06 · **Updated:** 2026-08-07 (backend went live)
+**For:** the next session, cold start
 **Read this first, then `CLAUDE.md`, then whatever this note points you at.**
 
 > ⚠️ **Numbering gap — there is no `04-*` file.** The memory-bank contains
@@ -13,12 +14,41 @@
 
 **Phase 2 of social-sentinel. Design is COMPLETE. We are now in IMPLEMENTATION.**
 
+# 🟢 THE BACKEND IS LIVE — DEPLOY IS DONE, NOT PENDING
+
+**<https://social-sentinel-api.onrender.com>**
+
+Any note elsewhere saying the Render deploy is broken or pending is **stale**.
+It shipped 2026-08-07.
+
+| | |
+|---|---|
+| Host | **Render**, native Python build, free tier |
+| Start command | `gunicorn -w 1 --threads 4 -b 0.0.0.0:$PORT run:app` |
+| Root Directory | `backend` |
+| Python | **3.11** on deploy (`backend/.python-version`); **local is 3.12.3** |
+| Free tier | sleeps after ~15 min idle, **~1 min cold start** — warm it before a demo |
+| Verified | `GET /` → 200 banner · `GET /health` → 200 |
+
+`GET /health` currently returns:
+```json
+{"status":"ok","models_ready":false,"detector":"keyword-fallback",
+ "models":{"bullying":false,"depression":false}}
+```
+**That is honest, not broken.** `models_ready` flips to `true` when the real
+Stage-1 model lands — it is the signal to watch.
+
+**All deploy blockers are cleared.** The six tracked in §4 are done: `/health`
+and `/` routes exist, `$PORT` binds, `run.py` starts, Heroku/HF config removed,
+Root Directory set.
+
 | | |
 |---|---|
 | **Two ADRs accepted** | `0001` lightweight classical model (Stage-1) · `0002` escalation architecture (Stage-2) |
 | **Investigations done** | `00` project state · `01` mock inventory · `02` follow-up feasibility · `03` corpus investigation |
 | **Verification TODOs** | Both **closed**. Reddit ruled out on policy; **Neon** chosen for Postgres |
-| **Open decisions** | 9 of 11 still open in `DECISIONS-PENDING.md` (D-1 and D-4 resolved) |
+| **Open decisions** | 8 of 11 open in `DECISIONS-PENDING.md` (D-1, D-4, D-11 resolved) |
+| **Latest commit** | `688b145`, pushed as `sadhuram09` |
 
 **The reframe that governs everything now:** the project detects **attacks
 unfolding** — escalation, swarm/pile-on, victim trajectory — not isolated tweets.
@@ -173,21 +203,23 @@ Grep-verified **and** live-verified. All under `/api`:
 
 Plus socket.io `connect` / `disconnect` (`routes/stream.py:8,15`).
 
-`grep -rnE "route\(['\"]/['\"]|health" app/` → **NONE FOUND.**
+**Now 6 routes** — `/` and `/health` were added 2026-08-07 (`routes/health.py`),
+registered with **no** `url_prefix` so platform probes reach them at root.
 
-### Unfixed deploy blockers
+### ✅ Deploy blockers — ALL CLEARED 2026-08-07
 
-| # | Blocker | Evidence | Ref |
-|---|---|---|---|
-| 1 | **No `/` or `/health` route.** Render's default probe hits `/` and 404s → service marked unhealthy even if the process is fine | live 404 above | `AUDIT.md` H-3, C-1.e |
-| 2 | **`$PORT` not bound in Dockerfile.** `CMD` hardcodes `0.0.0.0:5000`; Render injects `PORT` | `Dockerfile:13` | `AUDIT.md` C-1.b |
-| 3 | **Render Root Directory must be `backend`.** Repo root has no `requirements.txt` — build fails at step one | no `render.yaml` exists | `AUDIT.md` C-1.d |
-| 4 | **Leftover Heroku/HF config.** `Procfile` and `runtime.txt` are Heroku conventions Render does not read; `run.py:7` defaults `PORT` to `7860` (HF Spaces) | `Procfile:1`, `runtime.txt:1`, `run.py:7` | `AUDIT.md` C-1.a, C-1.g |
-| 5 | 🆕 **`run.py` crashes** — Werkzeug guard, see §3 | live traceback | *new, not in AUDIT* |
-| 6 | **Port default mismatch.** `run.py` → 7860; frontend expects 5000 | `run.py:7` vs `utils/api.js:2` | `AUDIT.md` M-1 |
+Kept as a record of what was fixed. **None of these is outstanding.**
 
-Blocker 5 does **not** affect Render (which uses gunicorn), but it does block the
-documented local workflow — so fix it as part of the same pass.
+| # | Blocker | Resolution |
+|---|---|---|
+| 1 | No `/` or `/health` route → Render probe 404s | ✅ added `app/routes/health.py`; both return 200 |
+| 2 | `$PORT` not bound in Dockerfile | ✅ shell-form `CMD` with `${PORT:-10000}` (exec form does not expand vars) |
+| 3 | Render Root Directory must be `backend` | ✅ set in the Render dashboard |
+| 4 | Leftover Heroku/HF config | ✅ `Procfile` + `runtime.txt` deleted; `.python-version` (3.11) added |
+| 5 | `run.py` crashed on Werkzeug guard | ✅ `allow_unsafe_werkzeug=True` on the dev entrypoint |
+| 6 | Port default mismatch (7860 vs 5000) | ✅ `run.py` default → 5000, matching `utils/api.js:2` |
+
+**The deploy is live and healthy. Do not re-litigate these.**
 
 ### Environment
 
@@ -197,8 +229,11 @@ documented local workflow — so fix it as part of the same pass.
   misdiagnose it as a hang.
 - **`python3` only — `python` is not on PATH.** venv is at `backend/venv/`
   (gitignored, so it is not a repo change).
-- Python **3.12.3** local vs **3.11.9** pinned in `runtime.txt` and the
-  Dockerfile. Everything installed fine on 3.12 — but that drift is unresolved.
+- Python: **local venv is 3.12.3**, **deploy is 3.11** (`backend/.python-version`,
+  matching the Dockerfile's `python:3.11-slim`). `AUDIT.md` M-2's three-way drift
+  is resolved down to this single known gap — you test on 3.12 and ship on 3.11.
+  All current pins have wheels for both. `pyenv` is not installed locally, so
+  `.python-version` is inert here.
 - **Docker unavailable** in this WSL distro (Desktop integration off), so the
   Render image cannot be reproduced locally.
 - `git status` shows ~42 files modified with **CRLF-only diffs**. Cosmetic noise
@@ -208,30 +243,47 @@ documented local workflow — so fix it as part of the same pass.
 
 ## 5. THE EXACT NEXT STEP
 
-**One focused pass: fix the remaining deploy blockers, test locally, THEN create
-a fresh Render service.**
+**Deploy is DONE.** ✅ The backend is live and healthy. Next, in this order —
+one reviewed slice at a time:
 
-In order:
+### 1️⃣ Connect the Vercel frontend to the live backend ← START HERE
 
-1. **Fix `run.py`** so the documented local command works (blocker 5). Confirm
-   `python run.py` binds and serves.
-2. **Add a `/health` route** (and a minimal `/`) returning something like
-   `{"status":"ok","models_ready":<bool>}` — blocker 1. Exposing `models_ready`
-   also ends the silent-fallback problem from `AUDIT.md` C-3.
-3. **Bind `$PORT`** in the Dockerfile — blocker 2.
-4. **Clean leftover config** — decide on `Procfile` / `runtime.txt` / the 7860
-   default (blockers 4, 6). Note **D-11** is still open: whether HF Spaces stays
-   a target. Don't delete those files without settling it.
-5. **Verify locally** — server starts both ways, `/health` returns 200, all four
-   `/api` routes still work, socket.io still handshakes.
-6. **Only then** create the fresh Render service, with **Root Directory =
-   `backend`** (blocker 3) and health check path `/health`.
+Cheapest, highest-visibility win. The site is deployed but talking to nothing.
 
-**Deploy onto a backend proven to run — not before.** That ordering is the whole
-point of deleting the old service.
+- **`frontend/src/utils/api.js:2`** falls back to `http://localhost:5000`.
+  `VITE_BACKEND_URL` appears **exactly once in the repo** — on that line — with
+  no `.env`, no `.env.example`, no `vercel.json` env block. Set it to
+  `https://social-sentinel-api.onrender.com` in the Vercel project.
+  (`AUDIT.md` **C-4**)
+- **`frontend/src/pages/Analyze.jsx:24`** posts to `'${BASE_URL}/api/analyze'` —
+  **single quotes, so no interpolation.** It requests a literal relative path,
+  404s, and falls into a `catch` that renders a hardcoded 87%/74%/81% HIGH-RISK
+  mock. **The Analyze page has never once shown a backend response.** One
+  character-class fix plus deleting `getMockResult`. (`AUDIT.md` **C-2**)
+- Backend CORS is `origins="*"` (`app/__init__.py:6,10`), so it will connect —
+  but tighten to an allowlist once the Vercel URL is known (`AUDIT.md` **H-7**).
+- ⚠️ Free-tier sleep means a cold visitor waits ~1 min. Consider a loading state.
 
-**Do not start model work yet.** ADR-0001's implementation slice (train the
-classifier) comes *after* the deploy is healthy. One thing at a time.
+### 2️⃣ Build the real Stage-1 model — ADR-0001
+
+Kaggle Cyberbullying corpus, TF-IDF + Logistic Regression. Write
+`ml/train_bullying.py` (currently 0 bytes), produce artifacts, report **honest
+held-out accuracy**. Watch `/health` flip `models_ready` to `true`.
+**Blocked on:** D-5 / ADR-0001 Q1 — artifact delivery, since `ml/artifacts/` is
+gitignored (`.gitignore:20`).
+
+### 3️⃣ Escalation engine + Postgres on Neon — ADR-0002
+
+CGA-WIKI corpus, Stage-2 conversation model, Neon Postgres. Schema is deferred
+to a follow-on ADR (ADR-0002 Q1) and must be written before coding.
+
+### 4️⃣ Production UI / 3D graph
+
+Real data into the visualisations. **16 frontend mock sites** are catalogued in
+`01-mock-data-inventory.md` — every 3D surface is currently hardcoded literals.
+
+**Do not skip ahead to 4.** The 3D work is the most fun and the least useful
+until 1–3 land.
 
 ---
 
@@ -266,14 +318,16 @@ classifier) comes *after* the deploy is healthy. One thing at a time.
 ```
 Repo          /mnt/c/Users/USER/social-sentinel   (WSL2, DrvFs — slow)
 Remote        github.com/sadhuram09/social-sentinel
-Branch        main @ 710ae8c  (pushed, in sync)
+Branch        main @ 688b145  (pushed as sadhuram09, in sync)
 Backend       Flask + Flask-SocketIO · venv at backend/venv (gitignored)
-Start (works) ./venv/bin/gunicorn -w 1 --threads 4 -b 0.0.0.0:5000 run:app
-Start (broken) PORT=5000 python3 run.py     ← Werkzeug RuntimeError
-Frontend      Vercel, deployed and working
-Backend host  NONE — old Render service deleted, fresh setup pending
+Backend LIVE  https://social-sentinel-api.onrender.com   ← Render, free tier
+Start (local) ./venv/bin/python run.py            → :5000  (PORT overrides)
+Start (prod)  gunicorn -w 1 --threads 4 -b 0.0.0.0:$PORT run:app
+Frontend      Vercel, deployed — ⚠ still points at localhost, NOT the live API
 Database      NONE yet — Neon chosen (ADR-0002 Decision E), schema deferred
-Detector      keyword substring counter — live-confirmed still in fallback
+Detector      keyword substring counter — /health reports models_ready:false
+Note          app takes ~10s to import (shap/numba on DrvFs); wait 30s
+              before judging a local start as failed
 ```
 
 ### Document map
@@ -287,7 +341,7 @@ Detector      keyword substring counter — live-confirmed still in fallback
 | Why escalation needs new data (RED) | `docs/memory-bank/02-followup-feasibility.md` |
 | Corpus choice, Reddit rejection | `docs/memory-bank/03-corpus-investigation.md` |
 | 39 ranked findings + reconciliation | `docs/AUDIT.md` |
-| 9 open decisions + closed TODOs | `docs/DECISIONS-PENDING.md` |
+| 8 open decisions + closed TODOs | `docs/DECISIONS-PENDING.md` |
 | Accepted architecture decisions | `docs/adr/0001-*.md`, `docs/adr/0002-*.md` |
 
 ### Known doc debt (deliberate, not urgent)

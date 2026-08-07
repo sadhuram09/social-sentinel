@@ -15,9 +15,10 @@ visualisation surfaces (force-directed network, globe, d3 echo chamber).
 - **Phase 1 (6th sem) — done.** Runs end to end on complete **mock** data.
 - **Phase 2 (7th sem) — current.** Make it real, deployed, and next-level.
 
-**Current state in one line:** the frontend is deployed on Vercel and works; the
-Render backend deploy is broken; detection is a 12-keyword substring match, not a
-model.
+**Current state in one line:** frontend deployed on Vercel; **backend LIVE on
+Render at <https://social-sentinel-api.onrender.com>**; detection is still a
+12-keyword substring match, not a model — and the frontend is not yet pointed at
+the live backend.
 
 ---
 
@@ -30,7 +31,7 @@ model.
 | [`docs/memory-bank/01-mock-data-inventory.md`](docs/memory-bank/01-mock-data-inventory.md) | Every mock/hardcoded/stub site — 26 active mocks, 7 empty stubs, with file:line |
 | [`docs/AUDIT.md`](docs/AUDIT.md) | 39 findings ranked CRITICAL/HIGH/MEDIUM/LOW, plus the README-vs-code reconciliation |
 | [`docs/DECISIONS-PENDING.md`](docs/DECISIONS-PENDING.md) | 11 open questions, each with a recommendation; 9 need the user's sign-off |
-| [`docs/adr/`](docs/adr/) | ADR scaffold. Template + conventions. **No real ADRs written yet.** |
+| [`docs/adr/`](docs/adr/) | **Two accepted ADRs** — `0001` lightweight classical model (Stage-1), `0002` escalation architecture (Stage-2) — plus template and conventions. |
 
 There is no README. `README.md` at the repo root is **0 bytes** — in the working
 tree and in `HEAD`. `frontend/README.md` is the unmodified Vite starter template.
