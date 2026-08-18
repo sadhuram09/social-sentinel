@@ -46,7 +46,7 @@ export default function Analyze() {
           Paste a Conversation
         </h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: 40 }}>
-          We detect bullying events, victim responses, and trace the causal chain in real time.
+          We detect bullying events, victim responses, and trace how a thread escalates.
         </p>
 
         {/* Input */}
@@ -127,8 +127,8 @@ export default function Analyze() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 20 }}>
                 {[
                   { label: 'Bullying Score', value: result.bullying_score, color: '#ff3d5a' },
-                  { label: 'Depression Score', value: result.depression_score, color: '#ffb347' },
-                  { label: 'Causal Link', value: result.causal_link, color: '#a855f7' },
+                  { label: 'Distress Signal', value: result.depression_score, color: '#ffb347' },
+                  { label: 'Risk Index', value: result.causal_link, color: '#a855f7' },
                 ].map(s => (
                   <div key={s.label} className="stat-card">
                     <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</div>
@@ -162,11 +162,16 @@ export default function Analyze() {
                   </div>
                 </div>
                 <div style={{ marginLeft: 'auto', fontSize: 14, color: 'var(--text-secondary)', maxWidth: 300 }}>
-                  Detected bullying event with confirmed depressive response in victim's subsequent messages.
+                  Bullying indicators detected, with elevated distress signals in later messages.
+                  Inferred signals — not a clinical assessment.
                 </div>
               </div>
 
-              {/* SHAP features */}
+              {/* SHAP Feature Importance — HIDDEN.
+                  The backend does not compute SHAP values; `shap_features` is
+                  fabricated. We do not display explainability we cannot produce.
+                  Re-enable by flipping `false` back to `true` below. */}
+              {false && (
               <div className="glass-card" style={{ padding: 24 }}>
                 <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 16, color: '#a855f7' }}>
                   ⚡ SHAP Feature Importance
@@ -186,6 +191,7 @@ export default function Analyze() {
                   </div>
                 ))}
               </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

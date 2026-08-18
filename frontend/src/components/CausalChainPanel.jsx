@@ -86,7 +86,9 @@ export default function CausalChainPanel({ chain }) {
         ))}
       </div>
 
-      {/* SHAP explanation placeholder */}
+      {/* SHAP Explainability — HIDDEN. The four feature weights below are
+          hand-typed literals, not model output. Re-enable by flipping `false`. */}
+      {false && (
       <div style={{
         marginTop: 16, padding: '14px 18px',
         background: 'rgba(168,85,247,0.06)', border: '1px solid rgba(168,85,247,0.2)',
@@ -108,6 +110,7 @@ export default function CausalChainPanel({ chain }) {
           ))}
         </div>
       </div>
+      )}
     </div>
   )
 }

@@ -129,7 +129,7 @@ export default function Dashboard() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <div>
             <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Active Causal Chains</h3>
-            <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Bullying events with confirmed depressive response</p>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Bullying events with elevated distress signals in later messages · inferred</p>
           </div>
           <span style={{ fontSize: 12, color: 'var(--accent-cyan)', fontFamily: 'JetBrains Mono, monospace' }}>
             {CHAINS.length} active

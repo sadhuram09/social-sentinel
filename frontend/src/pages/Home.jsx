@@ -112,7 +112,7 @@ export default function Home() {
           <span style={{ color: 'var(--text-primary)' }}>Depression.</span>
           <br />
           <span style={{ color: 'var(--text-secondary)', fontSize: '0.6em', fontWeight: 400 }}>
-            We Prove It, Visually.
+            We Trace It, Visually.
           </span>
         </motion.h1>
 
@@ -124,8 +124,8 @@ export default function Home() {
             maxWidth: 580, lineHeight: 1.7, marginBottom: 48,
           }}
         >
-          The world's first system that detects cyberbullying events and traces
-          their causal impact on victim mental health — in real time, with 3D visualizations.
+          A system that detects cyberbullying events and traces the distress
+          signals that follow — in real time, with 3D visualizations.
         </motion.p>
 
         {/* CTAs */}

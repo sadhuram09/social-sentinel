@@ -92,7 +92,9 @@ function TweetCard({ tweet }) {
 
           {/* Expanded SHAP */}
           <AnimatePresence>
-            {expanded && tweet.shap && Object.keys(tweet.shap).length > 0 && (
+            {/* SHAP FEATURES — HIDDEN. `tweet.shap` is fabricated upstream, not
+                model output. Re-enable by removing the `false &&` below. */}
+            {false && expanded && tweet.shap && Object.keys(tweet.shap).length > 0 && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
                 style={{ marginTop: 12, borderTop: '1px solid rgba(168,85,247,0.15)', paddingTop: 10 }}

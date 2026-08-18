@@ -96,7 +96,7 @@ export default function EchoChamberPage() {
           {
             icon: '🌊',
             title: 'Depression Ripple',
-            desc: 'Victims develop measurable depression signals. Even uninvolved bystanders who view the thread show anxiety and mood decline.',
+            desc: 'Victims show inferred distress signals. Even uninvolved bystanders who view the thread show anxiety and mood decline.',
             color: '#ffb347',
           },
         ].map(card => (
