@@ -201,11 +201,9 @@ export default function Analyze() {
                   <span className="risk-badge risk-medium" style={{ marginTop: 8 }}>Includes keyword distress heuristic</span>
                 </div>
                 <div style={{ marginLeft: 'auto', fontSize: 14, color: 'var(--text-secondary)', maxWidth: 300 }}>
-                  {result.bullying_type === 'not_cyberbullying'
-                    ? `No cyberbullying detected (bullying score ${Math.round(result.bullying_score * 100)}%).`
-                    : result.bullying_type === 'keyword_fallback'
+                  {result.bullying_type === 'keyword_fallback'
                     ? `Category unavailable — trained model not loaded (keyword score ${Math.round(result.bullying_score * 100)}%).`
-                    : `Classified as ${CATEGORY_LABEL[result.bullying_type] ?? result.bullying_type} (bullying score ${Math.round(result.bullying_score * 100)}%).`}
+                    : `Most likely: ${CATEGORY_LABEL[result.bullying_type] ?? result.bullying_type} (bullying score ${Math.round(result.bullying_score * 100)}%).`}
                   Inferred signals — not a clinical assessment.
                 </div>
               </div>
