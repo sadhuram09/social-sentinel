@@ -4,7 +4,7 @@ import { useWebSocket } from '../hooks/useWebSocket'
 
 const TYPE_STYLE = {
   bullying:   { color: '#ff3d5a', bg: 'rgba(255,61,90,0.08)',   border: 'rgba(255,61,90,0.22)',   icon: '🔴', label: 'BULLYING'   },
-  depression: { color: '#ffb347', bg: 'rgba(255,179,71,0.07)',  border: 'rgba(255,179,71,0.22)',  icon: '🟠', label: 'DEPRESSION' },
+  depression: { color: '#ffb347', bg: 'rgba(255,179,71,0.07)',  border: 'rgba(255,179,71,0.22)',  icon: '🟠', label: 'DISTRESS SIGNAL' },
   neutral:    { color: '#3d6080', bg: 'rgba(61,96,128,0.06)',   border: 'rgba(61,96,128,0.15)',   icon: '⚪', label: 'NEUTRAL'    },
 }
 
@@ -81,7 +81,7 @@ function TweetCard({ tweet }) {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>Depression</span>
+                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>Distress signal</span>
                 <span style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#ffb347' }}>
                   {Math.round(tweet.depression_score * 100)}%
                 </span>
@@ -161,7 +161,10 @@ export default function LiveFeed() {
         <div style={{ maxWidth: 860, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
           {/* Title + status */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <h1 style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>Live Feed</h1>
+            <div>
+              <h1 style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>Live Feed</h1>
+              <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>Sample tweets, scored live by the trained model</p>
+            </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{
                 width: 7, height: 7, borderRadius: '50%',
@@ -179,7 +182,7 @@ export default function LiveFeed() {
             {[
               { label: 'Total',      value: stats.total,      color: '#00d4ff' },
               { label: 'Bullying',   value: `${bullyingRate}%`,   color: '#ff3d5a' },
-              { label: 'Depression', value: `${depressionRate}%`, color: '#ffb347' },
+              { label: 'Distress signal', value: `${depressionRate}%`, color: '#ffb347' },
               { label: 'Neutral',    value: stats.neutral,    color: '#3d6080' },
             ].map(s => (
               <div key={s.label} style={{ textAlign: 'center' }}>

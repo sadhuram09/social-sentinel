@@ -19,17 +19,18 @@ export default function NetworkPage() {
       <div style={{ padding: '20px 40px 0', zIndex: 2 }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <p style={{ fontSize: 12, color: 'var(--accent-cyan)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
-            — 3D Causal Network
+            — 3D Conversation Network
           </p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
             <h1 style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-0.02em' }}>
-              Bullying → Depression Network
+              Conversation Network
+              <span className="risk-badge risk-medium" style={{ marginLeft: 12, verticalAlign: 'middle' }}>Sample data</span>
             </h1>
             {/* Mini stat strip */}
             <div style={{ display: 'flex', gap: 24 }}>
               {[
                 { label: 'Attackers', value: stats.bullyNodes, color: '#ff3d5a' },
-                { label: 'Victims',   value: stats.victimNodes, color: '#ffb347' },
+                { label: 'Targets',   value: stats.victimNodes, color: '#ffb347' },
                 { label: 'Connections', value: stats.links,    color: '#a855f7' },
                 { label: 'Avg Risk',  value: stats.avgDepressionRisk, color: '#00d4ff' },
               ].map(s => (
@@ -75,11 +76,11 @@ export default function NetworkPage() {
             color: selectedNode.type === 'bully' ? '#ff3d5a' : '#ffb347',
           }}>{selectedNode.label}</span>
           <span className={`risk-badge risk-${selectedNode.type === 'bully' ? 'high' : selectedNode.depressionScore > 0.7 ? 'high' : 'medium'}`}>
-            {selectedNode.type}
+            {selectedNode.type === 'victim' ? 'target' : selectedNode.type}
           </span>
           {selectedNode.depressionScore && (
             <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Depression risk: <strong style={{ color: '#ffb347' }}>{Math.round(selectedNode.depressionScore * 100)}%</strong>
+              Distress signal: <strong style={{ color: '#ffb347' }}>{Math.round(selectedNode.depressionScore * 100)}%</strong>
             </span>
           )}
         </motion.div>

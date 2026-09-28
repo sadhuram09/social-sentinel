@@ -245,7 +245,7 @@ export default function NetworkGraph3D({ onNodeClick }) {
         </p>
         {[
           { color: '#ff3d5a', label: 'Bully Account' },
-          { color: '#ffb347', label: 'Victim (Depression)' },
+          { color: '#ffb347', label: 'Target' },
           { color: '#1e3a5f', label: 'Bystander' },
         ].map(({ color, label }) => (
           <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -256,7 +256,7 @@ export default function NetworkGraph3D({ onNodeClick }) {
         <div style={{ borderTop: '1px solid rgba(99,179,237,0.1)', paddingTop: 10, marginTop: 2 }}>
           {[
             { color: 'rgba(255,61,90,0.8)',  label: 'Bullying Link' },
-            { color: 'rgba(255,179,71,0.6)', label: 'Depression Ripple' },
+            { color: 'rgba(255,179,71,0.6)', label: 'Distress ripple' },
           ].map(({ color, label }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
               <div style={{ width: 22, height: 2, background: color, borderRadius: 1 }} />
@@ -284,7 +284,7 @@ export default function NetworkGraph3D({ onNodeClick }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
             <div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                {selectedNode.type === 'bully' ? '🔴 Attacker' : selectedNode.type === 'victim' ? '🟠 Victim' : '⚪ Bystander'}
+                {selectedNode.type === 'bully' ? '🔴 Attacker' : selectedNode.type === 'victim' ? '🟠 Target' : '⚪ Bystander'}
               </div>
               <div style={{
                 fontSize: 16, fontWeight: 700,
@@ -309,7 +309,7 @@ export default function NetworkGraph3D({ onNodeClick }) {
 
           {selectedNode.type === 'victim' && (
             <div>
-              <MetricRow label="Depression Risk" value={`${Math.round(selectedNode.depressionScore * 100)}%`} color="#ffb347" bar={selectedNode.depressionScore} />
+              <MetricRow label="Distress signal" value={`${Math.round(selectedNode.depressionScore * 100)}%`} color="#ffb347" bar={selectedNode.depressionScore} />
               <MetricRow label="Severity" value={selectedNode.depressionScore > 0.8 ? 'Critical' : selectedNode.depressionScore > 0.6 ? 'High' : 'Medium'} color="#ffb347" />
             </div>
           )}

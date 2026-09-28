@@ -347,7 +347,7 @@ export default function EchoChamber({ onNodeSelect }) {
         {[
           { color: '#ff1744', label: '⚡ Origin Bully Post' },
           { color: '#ff3d5a', label: 'Amplifier (Resharer)' },
-          { color: '#ffb347', label: 'Victim (Depression)' },
+          { color: '#ffb347', label: 'Target' },
           { color: '#7aa3c8', label: 'Bystander (Affected)' },
         ].map(({ color, label }) => (
           <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
@@ -359,7 +359,7 @@ export default function EchoChamber({ onNodeSelect }) {
           {[
             { color: '#ff3d5a', dash: false, label: 'Spread / Bullying' },
             { color: '#a855f7', dash: true,  label: 'Echo Loop'         },
-            { color: '#ffb347', dash: true,  label: 'Depression Ripple' },
+            { color: '#ffb347', dash: true,  label: 'Distress ripple' },
           ].map(({ color, dash, label }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
               <svg width={22} height={4}>
@@ -397,7 +397,7 @@ export default function EchoChamber({ onNodeSelect }) {
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
                 <div>
                   <div style={{ fontSize: 10, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
-                    {node.type}
+                    {node.type === 'victim' ? 'target' : node.type}
                   </div>
                   <div style={{ fontSize: 15, fontWeight: 700, color: cfg.color, fontFamily: 'JetBrains Mono, monospace' }}>
                     {node.label}
@@ -405,7 +405,7 @@ export default function EchoChamber({ onNodeSelect }) {
                 </div>
                 {node.depressionScore && (
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 4 }}>Depression</div>
+                    <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 4 }}>Distress signal</div>
                     <div style={{ fontSize: 20, fontWeight: 700, color: '#ffb347', fontFamily: 'JetBrains Mono, monospace' }}>
                       {Math.round(node.depressionScore * 100)}%
                     </div>

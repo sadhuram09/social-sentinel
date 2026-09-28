@@ -77,14 +77,8 @@ export default function Navbar() {
 
       {/* Status indicator */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{
-          width: 8, height: 8, borderRadius: '50%',
-          background: '#00ff9d',
-          boxShadow: '0 0 10px #00ff9d',
-          animation: 'glow-pulse 2s infinite',
-        }} />
         <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>
-          LIVE
+          DEMO
         </span>
       </div>
     </nav>

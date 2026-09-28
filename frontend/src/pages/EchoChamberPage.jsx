@@ -5,10 +5,10 @@ import EchoChamber from '../components/EchoChamber'
 const METRICS = [
   { label: 'Origin Posts',   value: '1',    color: '#ff1744', sub: 'trigger event'     },
   { label: 'Amplifications', value: '3',    color: '#ff3d5a', sub: 'wave 1 reshares'   },
-  { label: 'Victims Hit',    value: '4',    color: '#ffb347', sub: 'wave 2 depression' },
+  { label: 'Targets Hit',    value: '4',    color: '#ffb347', sub: 'wave 2 targets' },
   { label: 'Bystanders',     value: '5',    color: '#7aa3c8', sub: 'wave 3 affected'   },
   { label: 'Total Reach',    value: '13',   color: '#a855f7', sub: 'nodes in network'  },
-  { label: 'Avg Depression', value: '73%',  color: '#00d4ff', sub: 'among victims'     },
+  { label: 'Avg distress signal', value: '73%',  color: '#00d4ff', sub: 'among targets'     },
 ]
 
 export default function EchoChamberPage() {
@@ -26,9 +26,10 @@ export default function EchoChamberPage() {
             <div>
               <h1 style={{ fontSize: 34, fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 6 }}>
                 Echo Chamber Detector
+                <span className="risk-badge risk-medium" style={{ marginLeft: 12, verticalAlign: 'middle' }}>Sample data</span>
               </h1>
               <p style={{ fontSize: 14, color: 'var(--text-muted)', maxWidth: 520 }}>
-                How one bullying post propagates through a social network — amplified by reshares, landing on victims, and spreading depression to bystanders.
+                How one bullying post propagates through a social network — amplified by reshares, landing on targets, and spreading to bystanders.
                 Hit <span style={{ color: '#00d4ff' }}>▶ Replay Spread</span> to watch it unfold wave by wave.
               </p>
             </div>
@@ -84,7 +85,7 @@ export default function EchoChamberPage() {
           {
             icon: '🔴',
             title: 'Origin Post',
-            desc: 'A single bullying post acts as the trigger. The attacker targets the victim directly with threatening or demeaning language.',
+            desc: 'A single bullying post acts as the trigger. The attacker addresses the target directly with threatening or demeaning language.',
             color: '#ff1744',
           },
           {
@@ -95,8 +96,8 @@ export default function EchoChamberPage() {
           },
           {
             icon: '🌊',
-            title: 'Depression Ripple',
-            desc: 'Victims show inferred distress signals. Even uninvolved bystanders who view the thread show anxiety and mood decline.',
+            title: 'Distress ripple',
+            desc: 'Targets show inferred distress signals. Some bystanders who view the thread show distress signals too.',
             color: '#ffb347',
           },
         ].map(card => (

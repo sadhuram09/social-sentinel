@@ -3,10 +3,9 @@ import { motion } from 'framer-motion'
 import Globe3D from '../components/Globe3D'
 
 const GLOBAL_STATS = [
-  { label: 'Countries Monitored', value: '20',    color: '#00d4ff' },
+  { label: 'Countries shown', value: '20',    color: '#00d4ff' },
   { label: 'Active Chains',       value: '3,204', color: '#ff3d5a' },
-  { label: 'Victims Tracked',     value: '18.4K', color: '#ffb347' },
-  { label: 'Avg Causal Rate',     value: '54%',   color: '#a855f7' },
+  { label: 'Sample targets',     value: '18.4K', color: '#ffb347' },
 ]
 
 export default function GlobePage() {
@@ -29,10 +28,11 @@ export default function GlobePage() {
               — Global Intelligence
             </p>
             <h1 style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 6 }}>
-              Worldwide Causal Chain Map
+              Worldwide Incident Map
+              <span className="risk-badge risk-medium" style={{ marginLeft: 12, verticalAlign: 'middle' }}>Sample data</span>
             </h1>
             <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
-              Live bullying → depression events across 20 countries · Arcs show causal chains · Rings show severity
+              Sample visualisation of illustrative events across 20 countries · Arcs link related incidents · Rings show severity
             </p>
           </div>
 

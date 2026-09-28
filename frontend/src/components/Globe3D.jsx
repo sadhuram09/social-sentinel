@@ -161,7 +161,7 @@ import React, {
               ">
                 <div style="font-weight:700;font-size:14px;color:#e8f4fd">${d.city}, ${d.country}</div>
                 <div style="font-size:12px;color:#ff3d5a;margin-top:4px">🔴 Bullying: ${d.bullyCount}</div>
-                <div style="font-size:12px;color:#ffb347">🟠 Depression: ${d.depCount}</div>
+                <div style="font-size:12px;color:#ffb347">🟠 Distress signals: ${d.depCount}</div>
                 <div style="font-size:11px;color:#7aa3c8;margin-top:4px">
                   Severity: ${Math.round(d.severity * 100)}%
                 </div>
@@ -204,7 +204,7 @@ import React, {
                 border:1px solid rgba(255,179,71,0.3);
                 border-radius:8px;padding:8px 12px;
                 font-family:Space Grotesk,sans-serif;font-size:12px;color:#ffb347
-              ">⚡ Causal Chain: ${d.label}</div>
+              ">⚡ Linked incident: ${d.label}</div>
             `}
   
             // ── Hex polygons — heat layer ─────────────────────
@@ -252,7 +252,7 @@ import React, {
           <div style={{ borderTop: '1px solid rgba(99,179,237,0.1)', paddingTop: 10, marginTop: 4 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
               <div style={{ width: 22, height: 2, background: 'linear-gradient(90deg,#ff3d5a,rgba(255,61,90,0.2))', borderRadius: 1 }} />
-              <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Causal Arc</span>
+              <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Linked incident</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{ width: 10, height: 10, borderRadius: 2, background: 'rgba(255,61,90,0.3)', border: '1px solid rgba(255,61,90,0.5)' }} />
@@ -271,9 +271,8 @@ import React, {
           width: 240,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#00ff9d', boxShadow: '0 0 6px #00ff9d' }} />
             <p style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-              Live Events
+              Sample Events
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -300,7 +299,7 @@ import React, {
                     </span>
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-                    {ev.type === 'bullying' ? '🔴' : '🟠'} {ev.type} detected
+                    {ev.type === 'bullying' ? '🔴' : '🟠'} {ev.type === 'depression' ? 'distress signal' : ev.type} detected
                   </div>
                 </motion.div>
               ))}
@@ -342,9 +341,8 @@ import React, {
               <div style={{ display: 'flex', gap: 24 }}>
                 {[
                   { label: 'Bullying Cases',  value: selected.bullyCount, color: '#ff3d5a' },
-                  { label: 'Depression Signals', value: selected.depCount, color: '#ffb347' },
+                  { label: 'Distress Signals', value: selected.depCount, color: '#ffb347' },
                   { label: 'Severity',        value: `${Math.round(selected.severity * 100)}%`, color: '#a855f7' },
-                  { label: 'Causal Rate',     value: `${Math.round((selected.depCount / selected.bullyCount) * 100)}%`, color: '#00d4ff' },
                 ].map(s => (
                   <div key={s.label} style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 22, fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>

@@ -61,10 +61,10 @@ export default function Dashboard() {
         style={{ marginBottom: 40 }}
       >
         <p style={{ fontSize: 12, color: 'var(--accent-cyan)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>
-          — Real-time Intelligence
+          — Sample data
         </p>
         <h2 style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-0.02em' }}>
-          Live Detection Dashboard
+          Sample Detection Dashboard
         </h2>
       </motion.div>
 
@@ -74,7 +74,7 @@ export default function Dashboard() {
         <div className="glass-card" style={{ padding: 28 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
             <div>
-              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Bullying → Depression Timeline</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Incident Timeline</h3>
               <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>24-hour window · Hourly resolution</p>
             </div>
             <div style={{ display: 'flex', gap: 16, fontSize: 12 }}>
@@ -84,7 +84,7 @@ export default function Dashboard() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <div style={{ width: 24, height: 2, background: '#ffb347', borderRadius: 1 }} />
-                <span style={{ color: 'var(--text-muted)' }}>Depression</span>
+                <span style={{ color: 'var(--text-muted)' }}>Distress signal</span>
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function Dashboard() {
               <YAxis tick={{ fill: '#3d6080', fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip content={<CUSTOM_TOOLTIP />} />
               <Area type="monotone" dataKey="bullying" stroke="#ff3d5a" strokeWidth={2} fill="url(#gBully)" name="bullying" />
-              <Area type="monotone" dataKey="depression" stroke="#ffb347" strokeWidth={2} fill="url(#gDepression)" name="depression" />
+              <Area type="monotone" dataKey="depression" stroke="#ffb347" strokeWidth={2} fill="url(#gDepression)" name="distress signal" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -128,7 +128,7 @@ export default function Dashboard() {
       <div className="glass-card" style={{ padding: 28 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <div>
-            <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Active Causal Chains</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Flagged Incidents</h3>
             <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Bullying events with elevated distress signals in later messages · inferred</p>
           </div>
           <span style={{ fontSize: 12, color: 'var(--accent-cyan)', fontFamily: 'JetBrains Mono, monospace' }}>
@@ -169,7 +169,7 @@ export default function Dashboard() {
                   </div>
 
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>VICTIM</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>TARGET</div>
                     <div style={{
                       background: 'rgba(255,179,71,0.1)', border: '1px solid rgba(255,179,71,0.25)',
                       borderRadius: 8, padding: '6px 12px', fontSize: 13,
@@ -181,7 +181,7 @@ export default function Dashboard() {
                 {/* Right side info */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Depression Risk</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Distress signal</div>
                     <div style={{ fontSize: 22, fontWeight: 700, fontFamily: 'JetBrains Mono, monospace', color: c.depressionScore > 0.8 ? '#ff3d5a' : '#ffb347' }}>
                       {Math.round(c.depressionScore * 100)}%
                     </div>

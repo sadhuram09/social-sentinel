@@ -5,8 +5,8 @@ const MOCK_EVENTS = [
   { type: 'bullying', time: 'T+0', text: 'nobody wants ur ugly ass here go cry somewhere', score: 0.94, label: 'Bullying Detected' },
   { type: 'bullying', time: 'T+2m', text: 'everyone agrees ur pathetic lmao', score: 0.89, label: 'Escalation' },
   { type: 'neutral', time: 'T+15m', text: '...', score: 0.12, label: 'Silence' },
-  { type: 'depression', time: 'T+1h', text: 'maybe they\'re right. i don\'t deserve to be here', score: 0.81, label: 'Depression Signal' },
-  { type: 'depression', time: 'T+3h', text: 'tired of existing honestly. what\'s even the point', score: 0.93, label: 'High Risk' },
+  { type: 'depression', time: 'T+1h', text: 'maybe they\'re right. i don\'t deserve to be here', score: 0.81, label: 'Distress signal' },
+  { type: 'depression', time: 'T+3h', text: 'tired of existing honestly. what\'s even the point', score: 0.93, label: 'High severity' },
 ]
 
 const typeColor = { bullying: '#ff3d5a', depression: '#ffb347', neutral: '#3d6080' }
@@ -15,7 +15,8 @@ export default function CausalChainPanel({ chain }) {
   return (
     <div style={{ borderTop: '1px solid rgba(99,179,237,0.1)', paddingTop: 20 }}>
       <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-        Causal Chain Timeline
+        Incident Timeline
+        <span className="risk-badge risk-medium" style={{ marginLeft: 12, verticalAlign: 'middle' }}>Sample data</span>
       </p>
 
       <div style={{ position: 'relative' }}>

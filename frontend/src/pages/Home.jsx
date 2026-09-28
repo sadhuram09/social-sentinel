@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Dashboard from '../components/Dashboard'
 
+// Measured results of the Stage-1 model (backend/ml/train_bullying.py).
+// Fixed measurements, not live figures.
 const STATS = [
-  { label: 'Tweets Analyzed', value: '2.4M', delta: '+12%', color: '#00d4ff' },
-  { label: 'Bullying Detected', value: '18,420', delta: '+3.2%', color: '#ff3d5a' },
-  { label: 'Depression Signals', value: '7,891', delta: '+8.1%', color: '#ffb347' },
-  { label: 'Causal Chains', value: '3,204', delta: '+5.7%', color: '#a855f7' },
+  { label: 'Held-out accuracy', value: '85.0%', color: '#00d4ff' },
+  { label: 'Messages in dataset', value: '45,308', color: '#ff3d5a' },
+  { label: 'ROC-AUC', value: '0.975', color: '#ffb347' },
+  { label: 'Abuse categories', value: '6', color: '#a855f7' },
 ]
 
 export default function Home() {
@@ -183,7 +185,6 @@ export default function Home() {
               <div style={{ fontSize: 28, fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>
                 {s.value}
               </div>
-              <div style={{ fontSize: 12, color: '#00ff9d', marginTop: 4 }}>{s.delta} today</div>
             </motion.div>
           ))}
         </motion.div>
@@ -191,6 +192,9 @@ export default function Home() {
 
       {/* Dashboard section */}
       <div style={{ position: 'relative', zIndex: 1, padding: '0 40px 80px' }}>
+        <h2 className="risk-badge risk-medium" style={{ marginBottom: 24 }}>
+          Sample dashboard — illustrative data
+        </h2>
         <Dashboard />
       </div>
     </div>

@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.services.causal_chain import CausalChainService
+from app.routes.stats import record_analyzed
 
 analyze_bp = Blueprint('analyze', __name__)
 _service   = CausalChainService()
@@ -12,6 +13,7 @@ def analyze():
         return jsonify({'error': 'No text provided'}), 400
     try:
         result = _service.analyze(text)
+        record_analyzed(result['lines_analyzed'])
         return jsonify(result)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -27,6 +29,7 @@ def analyze_single():
     from app.models.depression_model import predict as dp
     b = bp(text)
     d = dp(text)
+    record_analyzed(1)
     return jsonify({
         'bullying_score':   b['score'],
         'bullying_type':    b.get('type', ''),

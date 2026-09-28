@@ -5,11 +5,11 @@ import BASE_URL from '../utils/api'
 
 
 const EXAMPLE_THREAD = `@user_a: you're literally the dumbest person in this school lmao
-@victim: please stop
+@target: please stop
 @user_b: fr nobody likes you
 @user_a: go cry to your mommy loser
-@victim: maybe you're all right. i'm tired of this
-@victim: i don't think i can keep doing this. what's the point anymore`
+@target: maybe you're all right. i'm tired of this
+@target: i don't think i can keep doing this. what's the point anymore`
 
 export default function Analyze() {
   const [text, setText] = useState('')
@@ -46,7 +46,7 @@ export default function Analyze() {
           Paste a Conversation
         </h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: 40 }}>
-          We detect bullying events, victim responses, and trace how a thread escalates.
+          We detect bullying events, target responses, and trace how a thread escalates.
         </p>
 
         {/* Input */}
@@ -63,7 +63,7 @@ export default function Analyze() {
           </div>
           <textarea
             value={text} onChange={e => setText(e.target.value)}
-            placeholder="@attacker: paste tweets here...&#10;@victim: their response..."
+            placeholder="@attacker: paste tweets here...&#10;@target: their response..."
             style={{
               width: '100%', minHeight: 180, resize: 'vertical',
               background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(99,179,237,0.15)',
@@ -85,7 +85,7 @@ export default function Analyze() {
               transition: 'all 0.3s',
             }}
           >
-            {loading ? '⚡ Analyzing Causal Chain...' : '🔍 Analyze Thread →'}
+            {loading ? '⚡ Analyzing...' : '🔍 Analyze Thread →'}
           </button>
         </div>
 
