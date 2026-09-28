@@ -185,38 +185,66 @@ export default function Analyze() {
                   <div style={{ fontSize: 24, fontWeight: 700, color: result.risk_level === 'HIGH' ? '#ff3d5a' : '#ffb347' }}>
                     {result.risk_level} RISK
                   </div>
+                  <span className="risk-badge risk-medium" style={{ marginTop: 8 }}>Includes keyword distress heuristic</span>
                 </div>
                 <div style={{ marginLeft: 'auto', fontSize: 14, color: 'var(--text-secondary)', maxWidth: 300 }}>
-                  Bullying indicators detected, with elevated distress signals in later messages.
+                  {result.bullying_type === 'not_cyberbullying'
+                    ? `No cyberbullying detected (bullying score ${Math.round(result.bullying_score * 100)}%).`
+                    : result.bullying_type === 'keyword_fallback'
+                    ? `Category unavailable — trained model not loaded (keyword score ${Math.round(result.bullying_score * 100)}%).`
+                    : `Classified as ${CATEGORY_LABEL[result.bullying_type] ?? result.bullying_type} (bullying score ${Math.round(result.bullying_score * 100)}%).`}
                   Inferred signals — not a clinical assessment.
                 </div>
               </div>
 
-              {/* SHAP Feature Importance — HIDDEN.
-                  The backend does not compute SHAP values; `shap_features` is
-                  fabricated. We do not display explainability we cannot produce.
-                  Re-enable by flipping `false` back to `true` below. */}
-              {false && (
+              {/* Attribution — exact per-token contributions to the predicted category's logit */}
               <div className="glass-card" style={{ padding: 24 }}>
-                <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 16, color: '#a855f7' }}>
-                  ⚡ SHAP Feature Importance
+                <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, color: '#a855f7' }}>
+                  Why this category · whole thread
                 </h3>
-                {Object.entries(result.shap_features).map(([feat, val]) => (
-                  <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                    <div style={{ width: 140, fontSize: 13, color: 'var(--text-secondary)' }}>{feat}</div>
-                    <div style={{ flex: 1, height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 3 }}>
-                      <motion.div
-                        initial={{ width: 0 }} animate={{ width: `${val * 100}%` }} transition={{ duration: 0.7 }}
-                        style={{ height: '100%', background: 'linear-gradient(90deg, #a855f7, #00d4ff)', borderRadius: 3 }}
-                      />
-                    </div>
-                    <div style={{ width: 40, fontSize: 12, fontFamily: 'JetBrains Mono, monospace', color: '#a855f7', textAlign: 'right' }}>
-                      +{val}
-                    </div>
-                  </div>
-                ))}
+                <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>
+                  Contribution of each word or word pair to the predicted category. Exact for this model.
+                </p>
+                {result.attribution?.length ? (() => {
+                  const maxAbs = Math.max(...result.attribution.map(a => Math.abs(a.weight)))
+                  return result.attribution.map(({ token, weight }) => {
+                    const pct = `${(Math.abs(weight) / maxAbs) * 100}%`
+                    const positive = weight > 0
+                    return (
+                      <div key={token} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                        <div style={{ width: 140, fontSize: 13, color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>{token}</div>
+                        <div style={{ flex: 1, display: 'flex', height: 6 }}>
+                          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', background: 'rgba(255,255,255,0.05)', borderRadius: '3px 0 0 3px' }}>
+                            {!positive && (
+                              <motion.div initial={{ width: 0 }} animate={{ width: pct }} transition={{ duration: 0.7 }}
+                                style={{ height: '100%', background: '#3d6080', borderRadius: '3px 0 0 3px' }} />
+                            )}
+                          </div>
+                          <div style={{ width: 1, background: 'var(--text-muted)' }} />
+                          <div style={{ flex: 1, display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '0 3px 3px 0' }}>
+                            {positive && (
+                              <motion.div initial={{ width: 0 }} animate={{ width: pct }} transition={{ duration: 0.7 }}
+                                style={{ height: '100%', background: '#a855f7', borderRadius: '0 3px 3px 0' }} />
+                            )}
+                          </div>
+                        </div>
+                        <div style={{ width: 64, fontSize: 12, fontFamily: 'JetBrains Mono, monospace', color: positive ? '#a855f7' : '#7aa3c8', textAlign: 'right' }}>
+                          {positive ? '+' : '−'}{Math.abs(weight).toFixed(4)}
+                        </div>
+                      </div>
+                    )
+                  })
+                })() : (
+                  <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+                    Attribution unavailable — trained model not loaded
+                  </p>
+                )}
+                {result.attribution?.length > 0 && (
+                  <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 8 }}>
+                    Right of centre pushes toward {CATEGORY_LABEL[result.bullying_type] ?? result.bullying_type}; left pushes away.
+                  </p>
+                )}
               </div>
-              )}
             </motion.div>
           )}
         </AnimatePresence>
