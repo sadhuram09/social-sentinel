@@ -16,6 +16,6 @@ dist/
 .DS_Store
 Thumbs.db
 
-# ML artifacts
-backend/ml/artifacts/
+# ML artifacts — Stage-1 artifacts are committed (small, ~2.6 MB); datasets are not
 backend/ml/datasets/
+!backend/ml/artifacts/*.pkl
