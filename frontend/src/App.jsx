@@ -1,12 +1,22 @@
-import React, { useEffect, useRef } from 'react'
-import NetworkPage from './pages/NetworkPage'
+import React, { useEffect, useRef, lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import GlobePage from './pages/GlobePage'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Analyze from './pages/Analyze'
-import EchoChamberPage from './pages/EchoChamberPage'
 import LiveFeed from './pages/LiveFeed'
+
+// The three 3D surfaces pull in three.js / globe.gl / d3 (~2 MB). They are not
+// on the landing path, so they load on navigation instead of blocking first paint.
+const NetworkPage     = lazy(() => import('./pages/NetworkPage'))
+const GlobePage       = lazy(() => import('./pages/GlobePage'))
+const EchoChamberPage = lazy(() => import('./pages/EchoChamberPage'))
+
+const RouteFallback = () => (
+  <div style={{
+    minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+    color: 'var(--text-muted)', fontSize: 13, letterSpacing: '0.08em', textTransform: 'uppercase',
+  }}>Loading visualization…</div>
+)
 
 export default function App() {
   const cursorRef = useRef(null)
@@ -41,6 +51,7 @@ export default function App() {
       <div className="cursor" ref={cursorRef} />
       <div className="cursor-ring" ref={ringRef} />
       <Navbar />
+      <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/analyze" element={<Analyze />} />
@@ -49,6 +60,7 @@ export default function App() {
         <Route path="/globe" element={<GlobePage />} />
         <Route path="/echo" element={<EchoChamberPage />} />
       </Routes>
+      </Suspense>
     </>
   )
 }

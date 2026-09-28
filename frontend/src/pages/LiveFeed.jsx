@@ -48,7 +48,7 @@ function TweetCard({ tweet }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 5 }}>
             <span style={{
               fontSize: 13, fontWeight: 700, color: s.color,
-              fontFamily: 'JetBrains Mono, monospace',
+              fontFamily: 'Geist Mono, monospace',
             }}>{tweet.user}</span>
             <span style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
@@ -73,7 +73,7 @@ function TweetCard({ tweet }) {
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>Bullying</span>
-                <span style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#ff3d5a' }}>
+                <span style={{ fontSize: 10, fontFamily: 'Geist Mono, monospace', color: '#ff3d5a' }}>
                   {Math.round(tweet.bullying_score * 100)}%
                 </span>
               </div>
@@ -82,7 +82,7 @@ function TweetCard({ tweet }) {
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>Depression</span>
-                <span style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#ffb347' }}>
+                <span style={{ fontSize: 10, fontFamily: 'Geist Mono, monospace', color: '#ffb347' }}>
                   {Math.round(tweet.depression_score * 100)}%
                 </span>
               </div>
@@ -108,7 +108,7 @@ function TweetCard({ tweet }) {
                       border: '1px solid rgba(168,85,247,0.25)',
                       borderRadius: 5, padding: '2px 8px',
                     }}>
-                      {feat} <span style={{ fontFamily: 'JetBrains Mono, monospace' }}>+{val.toFixed(3)}</span>
+                      {feat} <span style={{ fontFamily: 'Geist Mono, monospace' }}>+{val.toFixed(3)}</span>
                     </span>
                   ))}
                 </div>
@@ -121,7 +121,7 @@ function TweetCard({ tweet }) {
         <div style={{ textAlign: 'right', flexShrink: 0 }}>
           <div style={{
             fontSize: 22, fontWeight: 700, color: s.color,
-            fontFamily: 'JetBrains Mono, monospace', lineHeight: 1,
+            fontFamily: 'Geist Mono, monospace', lineHeight: 1,
           }}>
             {Math.round(tweet.score * 100)}%
           </div>
@@ -168,7 +168,7 @@ export default function LiveFeed() {
                 background: connected && !paused ? '#00ff9d' : '#ff3d5a',
                 boxShadow: connected && !paused ? '0 0 8px #00ff9d' : '0 0 8px #ff3d5a',
               }} />
-              <span style={{ fontSize: 12, color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>
+              <span style={{ fontSize: 12, color: 'var(--text-muted)', fontFamily: 'Geist Mono, monospace' }}>
                 {connected && !paused ? 'LIVE' : paused ? 'PAUSED' : 'CONNECTING...'}
               </span>
             </div>
@@ -183,7 +183,7 @@ export default function LiveFeed() {
               { label: 'Neutral',    value: stats.neutral,    color: '#3d6080' },
             ].map(s => (
               <div key={s.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 18, fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>
+                <div style={{ fontSize: 18, fontWeight: 700, color: s.color, fontFamily: 'Geist Mono, monospace' }}>
                   {s.value}
                 </div>
                 <div style={{ fontSize: 10, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
@@ -200,7 +200,7 @@ export default function LiveFeed() {
             border: `1px solid ${paused ? 'rgba(0,255,157,0.3)' : 'rgba(255,61,90,0.3)'}`,
             color: paused ? '#00ff9d' : '#ff3d5a',
             fontWeight: 600, fontSize: 13, cursor: 'pointer',
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Geist, sans-serif',
             transition: 'all 0.2s',
           }}>
             {paused ? '▶ Resume' : '⏸ Pause'}

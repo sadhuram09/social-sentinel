@@ -36,7 +36,7 @@ const CUSTOM_TOOLTIP = ({ active, payload, label }) => {
     }}>
       <p style={{ color: 'var(--text-muted)', fontSize: 12, marginBottom: 6 }}>{label}</p>
       {payload.map(p => (
-        <p key={p.name} style={{ color: p.color, fontSize: 13, fontFamily: 'JetBrains Mono, monospace' }}>
+        <p key={p.name} style={{ color: p.color, fontSize: 13, fontFamily: 'Geist Mono, monospace' }}>
           {p.name}: <strong>{p.value}</strong>
         </p>
       ))}
@@ -131,7 +131,7 @@ export default function Dashboard() {
             <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Active Causal Chains</h3>
             <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Bullying events with elevated distress signals in later messages · inferred</p>
           </div>
-          <span style={{ fontSize: 12, color: 'var(--accent-cyan)', fontFamily: 'JetBrains Mono, monospace' }}>
+          <span style={{ fontSize: 12, color: 'var(--accent-cyan)', fontFamily: 'Geist Mono, monospace' }}>
             {CHAINS.length} active
           </span>
         </div>
@@ -158,7 +158,7 @@ export default function Dashboard() {
                     <div style={{
                       background: 'rgba(255,61,90,0.12)', border: '1px solid rgba(255,61,90,0.3)',
                       borderRadius: 8, padding: '6px 12px', fontSize: 13,
-                      color: '#ff3d5a', fontFamily: 'JetBrains Mono, monospace',
+                      color: '#ff3d5a', fontFamily: 'Geist Mono, monospace',
                     }}>{c.bully}</div>
                   </div>
 
@@ -173,7 +173,7 @@ export default function Dashboard() {
                     <div style={{
                       background: 'rgba(255,179,71,0.1)', border: '1px solid rgba(255,179,71,0.25)',
                       borderRadius: 8, padding: '6px 12px', fontSize: 13,
-                      color: '#ffb347', fontFamily: 'JetBrains Mono, monospace',
+                      color: '#ffb347', fontFamily: 'Geist Mono, monospace',
                     }}>{c.victim}</div>
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function Dashboard() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Depression Risk</div>
-                    <div style={{ fontSize: 22, fontWeight: 700, fontFamily: 'JetBrains Mono, monospace', color: c.depressionScore > 0.8 ? '#ff3d5a' : '#ffb347' }}>
+                    <div style={{ fontSize: 22, fontWeight: 700, fontFamily: 'Geist Mono, monospace', color: c.depressionScore > 0.8 ? '#ff3d5a' : '#ffb347' }}>
                       {Math.round(c.depressionScore * 100)}%
                     </div>
                   </div>

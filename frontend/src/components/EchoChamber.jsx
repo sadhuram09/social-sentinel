@@ -226,7 +226,7 @@ export default function EchoChamber({ onNodeSelect }) {
       .attr('text-anchor', 'middle')
       .attr('dy', d => NODE_CONFIG[d.type].size + 14)
       .attr('font-size', d => d.type === 'origin' ? 12 : 10)
-      .attr('font-family', 'JetBrains Mono, monospace')
+      .attr('font-family', 'Geist Mono, monospace')
       .attr('fill', d => NODE_CONFIG[d.type].color)
       .attr('fill-opacity', 0.85)
       .attr('pointer-events', 'none')
@@ -278,7 +278,7 @@ export default function EchoChamber({ onNodeSelect }) {
             border: '1px solid rgba(0,212,255,0.3)',
             color: '#00d4ff', fontWeight: 600, fontSize: 12,
             cursor: playing ? 'not-allowed' : 'pointer',
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Geist, sans-serif',
             opacity: playing ? 0.6 : 1,
           }}
         >
@@ -292,7 +292,7 @@ export default function EchoChamber({ onNodeSelect }) {
             background: 'rgba(168,85,247,0.08)',
             border: '1px solid rgba(168,85,247,0.25)',
             color: '#a855f7', fontWeight: 600, fontSize: 12,
-            cursor: 'pointer', fontFamily: 'Space Grotesk, sans-serif',
+            cursor: 'pointer', fontFamily: 'Geist, sans-serif',
           }}
         >
           ↺ Reset
@@ -399,14 +399,14 @@ export default function EchoChamber({ onNodeSelect }) {
                   <div style={{ fontSize: 10, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
                     {node.type}
                   </div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: cfg.color, fontFamily: 'JetBrains Mono, monospace' }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: cfg.color, fontFamily: 'Geist Mono, monospace' }}>
                     {node.label}
                   </div>
                 </div>
                 {node.depressionScore && (
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 4 }}>Depression</div>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: '#ffb347', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: '#ffb347', fontFamily: 'Geist Mono, monospace' }}>
                       {Math.round(node.depressionScore * 100)}%
                     </div>
                   </div>
@@ -429,7 +429,7 @@ export default function EchoChamber({ onNodeSelect }) {
                   <div style={{ height: 4, background: 'rgba(255,255,255,0.06)', borderRadius: 2 }}>
                     <div style={{ width: `${node.severity * 100}%`, height: '100%', background: cfg.color, borderRadius: 2 }} />
                   </div>
-                  <div style={{ fontSize: 11, color: cfg.color, fontFamily: 'JetBrains Mono, monospace', marginTop: 3 }}>
+                  <div style={{ fontSize: 11, color: cfg.color, fontFamily: 'Geist Mono, monospace', marginTop: 3 }}>
                     {Math.round(node.severity * 100)}%
                   </div>
                 </div>
@@ -439,7 +439,7 @@ export default function EchoChamber({ onNodeSelect }) {
                     <div style={{
                       fontSize: 18, fontWeight: 700,
                       color: node.wave === 1 ? '#ff3d5a' : node.wave === 2 ? '#ffb347' : '#7aa3c8',
-                      fontFamily: 'JetBrains Mono, monospace',
+                      fontFamily: 'Geist Mono, monospace',
                     }}>W{node.wave}</div>
                   </div>
                 )}

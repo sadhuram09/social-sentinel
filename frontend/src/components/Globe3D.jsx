@@ -156,7 +156,7 @@ import React, {
                 background:rgba(8,13,20,0.92);
                 border:1px solid rgba(255,61,90,0.3);
                 border-radius:10px;padding:10px 14px;
-                font-family:Space Grotesk,sans-serif;
+                font-family:Geist,sans-serif;
                 min-width:160px;
               ">
                 <div style="font-weight:700;font-size:14px;color:#e8f4fd">${d.city}, ${d.country}</div>
@@ -203,7 +203,7 @@ import React, {
                 background:rgba(8,13,20,0.9);
                 border:1px solid rgba(255,179,71,0.3);
                 border-radius:8px;padding:8px 12px;
-                font-family:Space Grotesk,sans-serif;font-size:12px;color:#ffb347
+                font-family:Geist,sans-serif;font-size:12px;color:#ffb347
               ">⚡ Causal Chain: ${d.label}</div>
             `}
   
@@ -295,7 +295,7 @@ import React, {
                     <span style={{ fontSize: 12, fontWeight: 600, color: ev.type === 'bullying' ? '#ff3d5a' : '#ffb347' }}>
                       {ev.city}
                     </span>
-                    <span style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <span style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: 'Geist Mono, monospace' }}>
                       {Math.round(ev.severity * 100)}%
                     </span>
                   </div>
@@ -347,7 +347,7 @@ import React, {
                   { label: 'Causal Rate',     value: `${Math.round((selected.depCount / selected.bullyCount) * 100)}%`, color: '#00d4ff' },
                 ].map(s => (
                   <div key={s.label} style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 22, fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>
+                    <div style={{ fontSize: 22, fontWeight: 700, color: s.color, fontFamily: 'Geist Mono, monospace' }}>
                       {s.value}
                     </div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 3 }}>{s.label}</div>

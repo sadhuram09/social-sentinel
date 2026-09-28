@@ -38,7 +38,7 @@ export default function CausalChainPanel({ chain }) {
             <div style={{
               width: 60, textAlign: 'right',
               fontSize: 11, color: 'var(--text-muted)',
-              fontFamily: 'JetBrains Mono, monospace',
+              fontFamily: 'Geist Mono, monospace',
               paddingTop: 4, flexShrink: 0,
             }}>
               {ev.time}
@@ -65,7 +65,7 @@ export default function CausalChainPanel({ chain }) {
                 <span style={{ fontSize: 11, fontWeight: 600, color: typeColor[ev.type], letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                   {ev.label}
                 </span>
-                <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>
+                <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'Geist Mono, monospace' }}>
                   Score: {ev.score}
                 </span>
               </div>
@@ -105,7 +105,7 @@ export default function CausalChainPanel({ chain }) {
               borderRadius: 6, padding: '4px 10px',
               fontSize: 12, color: '#d4a0ff',
             }}>
-              {word} <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11 }}>+{val}</span>
+              {word} <span style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11 }}>+{val}</span>
             </div>
           ))}
         </div>

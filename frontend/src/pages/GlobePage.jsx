@@ -47,7 +47,7 @@ export default function GlobePage() {
               >
                 <div style={{
                   fontSize: 26, fontWeight: 700, color: s.color,
-                  fontFamily: 'JetBrains Mono, monospace', lineHeight: 1,
+                  fontFamily: 'Geist Mono, monospace', lineHeight: 1,
                 }}>
                   {s.value}
                 </div>

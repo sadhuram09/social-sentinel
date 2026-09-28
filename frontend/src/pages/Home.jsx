@@ -87,14 +87,15 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
           style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            border: '1px solid rgba(168,85,247,0.3)',
-            background: 'rgba(168,85,247,0.08)',
-            borderRadius: 100, padding: '6px 18px', marginBottom: 32,
-            fontSize: 13, color: '#a855f7', fontWeight: 500,
+            display: 'inline-flex', alignItems: 'center', gap: 9,
+            border: '1px solid var(--border)',
+            background: 'rgba(255,255,255,0.025)',
+            borderRadius: 100, padding: '7px 16px', marginBottom: 36,
+            fontSize: 12.5, color: 'var(--text-secondary)', fontWeight: 500,
+            letterSpacing: '-0.005em',
           }}
         >
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#a855f7', display: 'inline-block' }} />
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--accent-cyan)', display: 'inline-block', boxShadow: '0 0 0 3px rgba(0,212,255,0.14)' }} />
           AI-Powered Causal Chain Detection
         </motion.div>
 
@@ -102,16 +103,19 @@ export default function Home() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
           style={{
-            fontSize: 'clamp(42px, 7vw, 88px)',
-            fontWeight: 700, lineHeight: 1.05,
-            letterSpacing: '-0.03em', marginBottom: 24,
+            fontSize: 'clamp(44px, 7.2vw, 92px)',
+            fontWeight: 600, lineHeight: 1.02,
+            letterSpacing: '-0.042em', marginBottom: 26,
           }}
         >
           <span className="gradient-text">Bullying Triggers</span>
           <br />
           <span style={{ color: 'var(--text-primary)' }}>Depression.</span>
-          <br />
-          <span style={{ color: 'var(--text-secondary)', fontSize: '0.6em', fontWeight: 400 }}>
+          <span style={{
+            display: 'block', marginTop: 18,
+            color: 'var(--text-muted)', fontSize: '0.30em', fontWeight: 400,
+            letterSpacing: '-0.015em', lineHeight: 1.3,
+          }}>
             We Trace It, Visually.
           </span>
         </motion.h1>
@@ -120,8 +124,9 @@ export default function Home() {
         <motion.p
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}
           style={{
-            fontSize: 18, color: 'var(--text-secondary)',
-            maxWidth: 580, lineHeight: 1.7, marginBottom: 48,
+            fontSize: 17, color: 'var(--text-secondary)',
+            maxWidth: 560, lineHeight: 1.65, marginBottom: 44,
+            letterSpacing: '-0.008em',
           }}
         >
           A system that detects cyberbullying events and traces the distress
@@ -131,31 +136,32 @@ export default function Home() {
         {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-          style={{ display: 'flex', gap: 16 }}
+          style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}
         >
           <button onClick={() => navigate('/analyze')} style={{
-            padding: '14px 36px', borderRadius: 12,
-            background: 'linear-gradient(135deg, #00d4ff, #a855f7)',
-            border: 'none', color: '#000', fontWeight: 700, fontSize: 15,
-            cursor: 'pointer', fontFamily: 'Space Grotesk, sans-serif',
-            boxShadow: '0 0 30px rgba(0,212,255,0.3)',
-            transition: 'transform 0.2s, box-shadow 0.2s',
+            padding: '13px 28px', borderRadius: 10,
+            background: 'var(--text-primary)',
+            border: '1px solid transparent', color: '#08090c', fontWeight: 600, fontSize: 14.5,
+            letterSpacing: '-0.01em',
+            cursor: 'pointer', fontFamily: 'Geist, sans-serif',
+            boxShadow: 'var(--shadow-md)',
+            transition: 'transform 0.25s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease',
           }}
-            onMouseEnter={e => { e.target.style.transform = 'scale(1.04)'; e.target.style.boxShadow = '0 0 50px rgba(0,212,255,0.5)' }}
-            onMouseLeave={e => { e.target.style.transform = 'scale(1)'; e.target.style.boxShadow = '0 0 30px rgba(0,212,255,0.3)' }}
+            onMouseEnter={e => { e.target.style.transform = 'translateY(-1px)'; e.target.style.opacity = '0.9' }}
+            onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.opacity = '1' }}
           >
             Analyze a Thread →
           </button>
           <button onClick={() => navigate('/live')} style={{
-            padding: '14px 36px', borderRadius: 12,
+            padding: '13px 28px', borderRadius: 10,
             background: 'transparent',
-            border: '1px solid rgba(0,212,255,0.3)', color: 'var(--accent-cyan)',
-            fontWeight: 600, fontSize: 15,
-            cursor: 'pointer', fontFamily: 'Space Grotesk, sans-serif',
-            transition: 'all 0.2s',
+            border: '1px solid var(--border)', color: 'var(--text-secondary)',
+            fontWeight: 500, fontSize: 14.5, letterSpacing: '-0.01em',
+            cursor: 'pointer', fontFamily: 'Geist, sans-serif',
+            transition: 'background 0.25s ease, border-color 0.25s ease, color 0.25s ease',
           }}
-            onMouseEnter={e => { e.target.style.background = 'rgba(0,212,255,0.08)' }}
-            onMouseLeave={e => { e.target.style.background = 'transparent' }}
+            onMouseEnter={e => { e.target.style.background = 'rgba(255,255,255,0.04)'; e.target.style.borderColor = 'var(--border-glow)'; e.target.style.color = 'var(--text-primary)' }}
+            onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.borderColor = 'var(--border)'; e.target.style.color = 'var(--text-secondary)' }}
           >
             Live Feed
           </button>
@@ -166,7 +172,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
           style={{
             display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 16, width: '100%', maxWidth: 900, marginTop: 80,
+            gap: 12, width: '100%', maxWidth: 920, marginTop: 96,
           }}
         >
           {STATS.map((s, i) => (
@@ -177,20 +183,20 @@ export default function Home() {
               className="stat-card"
               style={{ textAlign: 'left' }}
             >
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: 10.5, color: 'var(--text-muted)', marginBottom: 10, fontWeight: 500, letterSpacing: '0.09em', textTransform: 'uppercase' }}>
                 {s.label}
               </div>
-              <div style={{ fontSize: 28, fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>
+              <div style={{ fontSize: 26, fontWeight: 600, color: s.color, fontFamily: 'Geist Mono, monospace', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em', lineHeight: 1 }}>
                 {s.value}
               </div>
-              <div style={{ fontSize: 12, color: '#00ff9d', marginTop: 4 }}>{s.delta} today</div>
+              <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 8 }}>{s.delta} today</div>
             </motion.div>
           ))}
         </motion.div>
       </div>
 
       {/* Dashboard section */}
-      <div style={{ position: 'relative', zIndex: 1, padding: '0 40px 80px' }}>
+      <div style={{ position: 'relative', zIndex: 1, padding: '0 40px 120px', maxWidth: 1280, margin: '0 auto' }}>
         <Dashboard />
       </div>
     </div>

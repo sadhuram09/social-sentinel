@@ -47,7 +47,7 @@ export default function EchoChamberPage() {
                     textAlign: 'center', minWidth: 80,
                   }}
                 >
-                  <div style={{ fontSize: 22, fontWeight: 700, color: m.color, fontFamily: 'JetBrains Mono, monospace', lineHeight: 1 }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: m.color, fontFamily: 'Geist Mono, monospace', lineHeight: 1 }}>
                     {m.value}
                   </div>
                   <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>

@@ -37,27 +37,31 @@ export default function Analyze() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', padding: '100px 40px 80px', maxWidth: 1000, margin: '0 auto' }}>
+    <div style={{ minHeight: '100vh', padding: '120px 40px 100px', maxWidth: 940, margin: '0 auto' }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <p style={{ fontSize: 12, color: 'var(--accent-cyan)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>
+        <p style={{ fontSize: 11, color: 'var(--accent-cyan)', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 14 }}>
           — Thread Analyzer
         </p>
-        <h1 style={{ fontSize: 40, fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 8 }}>
+        <h1 style={{ fontSize: 42, fontWeight: 600, letterSpacing: '-0.035em', lineHeight: 1.08, marginBottom: 12 }}>
           Paste a Conversation
         </h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: 40 }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: 15, marginBottom: 44, maxWidth: 560 }}>
           We detect bullying events, victim responses, and trace how a thread escalates.
         </p>
 
         {/* Input */}
-        <div className="glass-card" style={{ padding: 24, marginBottom: 20 }}>
+        <div className="glass-card" style={{ padding: 22, marginBottom: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>Tweet thread · one tweet per line</span>
+            <span style={{ fontSize: 12.5, color: 'var(--text-muted)' }}>Tweet thread · one tweet per line</span>
             <button onClick={() => setText(EXAMPLE_THREAD)} style={{
-              fontSize: 12, color: 'var(--accent-cyan)', background: 'none',
-              border: '1px solid rgba(0,212,255,0.2)', borderRadius: 6, padding: '4px 12px', cursor: 'pointer',
-              fontFamily: 'Space Grotesk, sans-serif',
-            }}>
+              fontSize: 12, color: 'var(--text-secondary)', background: 'none',
+              border: '1px solid var(--border)', borderRadius: 7, padding: '5px 12px', cursor: 'pointer',
+              fontFamily: 'Geist, sans-serif',
+              transition: 'border-color 0.25s ease, color 0.25s ease, background 0.25s ease',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-glow)'; e.currentTarget.style.color = 'var(--text-primary)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+            >
               Load example
             </button>
           </div>
@@ -65,25 +69,31 @@ export default function Analyze() {
             value={text} onChange={e => setText(e.target.value)}
             placeholder="@attacker: paste tweets here...&#10;@victim: their response..."
             style={{
-              width: '100%', minHeight: 180, resize: 'vertical',
-              background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(99,179,237,0.15)',
-              borderRadius: 10, padding: 16,
-              color: 'var(--text-primary)', fontSize: 14, lineHeight: 1.7,
-              fontFamily: 'JetBrains Mono, monospace',
+              width: '100%', minHeight: 190, resize: 'vertical',
+              background: 'rgba(0,0,0,0.28)', border: '1px solid var(--border)',
+              borderRadius: 10, padding: '16px 18px',
+              color: 'var(--text-primary)', fontSize: 13.5, lineHeight: 1.75,
+              fontFamily: 'Geist Mono, monospace',
               outline: 'none',
+              transition: 'border-color 0.25s ease, background 0.25s ease',
             }}
+            onFocus={e => { e.currentTarget.style.borderColor = 'rgba(0,212,255,0.35)'; e.currentTarget.style.background = 'rgba(0,0,0,0.4)' }}
+            onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'rgba(0,0,0,0.28)' }}
           />
           <button
             onClick={analyze} disabled={loading || !text.trim()}
             style={{
-              marginTop: 16, width: '100%', padding: '14px',
-              background: loading ? 'rgba(0,212,255,0.1)' : 'linear-gradient(135deg, #ff3d5a, #a855f7)',
-              border: 'none', borderRadius: 10,
-              color: '#fff', fontWeight: 700, fontSize: 15,
-              cursor: loading ? 'not-allowed' : 'pointer',
-              fontFamily: 'Space Grotesk, sans-serif',
-              transition: 'all 0.3s',
+              marginTop: 18, width: '100%', padding: '14px',
+              background: (loading || !text.trim()) ? 'rgba(255,255,255,0.06)' : 'var(--text-primary)',
+              border: '1px solid transparent', borderRadius: 10,
+              color: (loading || !text.trim()) ? 'var(--text-muted)' : '#08090c',
+              fontWeight: 600, fontSize: 14.5, letterSpacing: '-0.01em',
+              cursor: (loading || !text.trim()) ? 'not-allowed' : 'pointer',
+              fontFamily: 'Geist, sans-serif',
+              transition: 'background 0.25s ease, color 0.25s ease, opacity 0.25s ease',
             }}
+            onMouseEnter={e => { if (!loading && text.trim()) e.currentTarget.style.opacity = '0.9' }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
           >
             {loading ? '⚡ Analyzing Causal Chain...' : '🔍 Analyze Thread →'}
           </button>
@@ -96,15 +106,15 @@ export default function Analyze() {
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
               className="glass-card"
               style={{
-                padding: 20, marginBottom: 20,
-                border: '1px solid rgba(255,61,90,0.35)',
-                background: 'rgba(255,61,90,0.06)',
+                padding: '20px 22px', marginBottom: 20,
+                border: '1px solid rgba(255,61,90,0.28)',
+                background: 'rgba(255,61,90,0.05)',
                 display: 'flex', alignItems: 'flex-start', gap: 14,
               }}
             >
               <span style={{ fontSize: 20, lineHeight: 1.2 }}>⚠️</span>
               <div>
-                <div style={{ fontSize: 15, fontWeight: 600, color: '#ff3d5a', marginBottom: 6 }}>
+                <div style={{ fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.015em', color: '#ff3d5a', marginBottom: 6 }}>
                   Analysis unavailable
                 </div>
                 <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
@@ -124,19 +134,23 @@ export default function Analyze() {
           {result && (
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
               {/* Score cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 20 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 12 }}>
                 {[
                   { label: 'Bullying Score', value: result.bullying_score, color: '#ff3d5a' },
                   { label: 'Distress Signal', value: result.depression_score, color: '#ffb347' },
                   { label: 'Risk Index', value: result.causal_link, color: '#a855f7' },
                 ].map(s => (
-                  <div key={s.label} className="stat-card">
-                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</div>
-                    <div style={{ fontSize: 36, fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>
-                      {Math.round(s.value * 100)}%
+                  <div key={s.label} className="stat-card" style={{ padding: '20px 22px' }}>
+                    <div style={{ fontSize: 10.5, color: 'var(--text-muted)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 500 }}>{s.label}</div>
+                    <div style={{
+                      fontSize: 38, fontWeight: 600, color: s.color,
+                      fontFamily: 'Geist Mono, monospace', fontVariantNumeric: 'tabular-nums',
+                      letterSpacing: '-0.03em', lineHeight: 1,
+                    }}>
+                      {Math.round(s.value * 100)}<span style={{ fontSize: '0.5em', marginLeft: 2, opacity: 0.55 }}>%</span>
                     </div>
-                    <div style={{ marginTop: 8, height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2 }}>
-                      <motion.div initial={{ width: 0 }} animate={{ width: `${s.value * 100}%` }} transition={{ duration: 0.8 }}
+                    <div style={{ marginTop: 16, height: 2, background: 'rgba(255,255,255,0.07)', borderRadius: 2, overflow: 'hidden' }}>
+                      <motion.div initial={{ width: 0 }} animate={{ width: `${s.value * 100}%` }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                         style={{ height: '100%', background: s.color, borderRadius: 2 }} />
                     </div>
                   </div>
@@ -144,24 +158,23 @@ export default function Analyze() {
               </div>
 
               {/* Risk level */}
-              <div className="glass-card" style={{ padding: 24, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 20 }}>
+              <div className="glass-card" style={{ padding: '22px 24px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
                 <div style={{
-                  width: 56, height: 56, borderRadius: '50%',
-                  background: result.risk_level === 'HIGH' ? 'rgba(255,61,90,0.15)' : 'rgba(255,179,71,0.15)',
-                  border: `2px solid ${result.risk_level === 'HIGH' ? '#ff3d5a' : '#ffb347'}`,
+                  width: 46, height: 46, borderRadius: 12, flexShrink: 0,
+                  background: result.risk_level === 'HIGH' ? 'rgba(255,61,90,0.10)' : 'rgba(255,179,71,0.10)',
+                  border: `1px solid ${result.risk_level === 'HIGH' ? 'rgba(255,61,90,0.30)' : 'rgba(255,179,71,0.30)'}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 24,
-                  boxShadow: result.risk_level === 'HIGH' ? 'var(--glow-red)' : 'var(--glow-amber)',
+                  fontSize: 20,
                 }}>
                   {result.risk_level === 'HIGH' ? '🚨' : '⚠️'}
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>Overall Risk Level</div>
-                  <div style={{ fontSize: 24, fontWeight: 700, color: result.risk_level === 'HIGH' ? '#ff3d5a' : '#ffb347' }}>
+                  <div style={{ fontSize: 10.5, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 500 }}>Overall Risk Level</div>
+                  <div style={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.025em', lineHeight: 1, color: result.risk_level === 'HIGH' ? '#ff3d5a' : '#ffb347' }}>
                     {result.risk_level} RISK
                   </div>
                 </div>
-                <div style={{ marginLeft: 'auto', fontSize: 14, color: 'var(--text-secondary)', maxWidth: 300 }}>
+                <div style={{ marginLeft: 'auto', fontSize: 13, lineHeight: 1.6, color: 'var(--text-secondary)', maxWidth: 340, borderLeft: '1px solid var(--border)', paddingLeft: 18 }}>
                   Bullying indicators detected, with elevated distress signals in later messages.
                   Inferred signals — not a clinical assessment.
                 </div>
@@ -185,7 +198,7 @@ export default function Analyze() {
                         style={{ height: '100%', background: 'linear-gradient(90deg, #a855f7, #00d4ff)', borderRadius: 3 }}
                       />
                     </div>
-                    <div style={{ width: 40, fontSize: 12, fontFamily: 'JetBrains Mono, monospace', color: '#a855f7', textAlign: 'right' }}>
+                    <div style={{ width: 40, fontSize: 12, fontFamily: 'Geist Mono, monospace', color: '#a855f7', textAlign: 'right' }}>
                       +{val}
                     </div>
                   </div>

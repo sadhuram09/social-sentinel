@@ -34,7 +34,7 @@ export default function NetworkPage() {
                 { label: 'Avg Risk',  value: stats.avgDepressionRisk, color: '#00d4ff' },
               ].map(s => (
                 <div key={s.label} style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 20, fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>{s.value}</div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: s.color, fontFamily: 'Geist Mono, monospace' }}>{s.value}</div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{s.label}</div>
                 </div>
               ))}
@@ -71,7 +71,7 @@ export default function NetworkPage() {
         >
           <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>Selected:</span>
           <span style={{
-            fontFamily: 'JetBrains Mono, monospace', fontSize: 14, fontWeight: 700,
+            fontFamily: 'Geist Mono, monospace', fontSize: 14, fontWeight: 700,
             color: selectedNode.type === 'bully' ? '#ff3d5a' : '#ffb347',
           }}>{selectedNode.label}</span>
           <span className={`risk-badge risk-${selectedNode.type === 'bully' ? 'high' : selectedNode.depressionScore > 0.7 ? 'high' : 'medium'}`}>

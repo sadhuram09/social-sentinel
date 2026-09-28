@@ -174,7 +174,7 @@ export default function NetworkGraph3D({ onNodeClick }) {
     const ctx = canvas.getContext('2d')
     ctx.fillStyle   = 'rgba(0,0,0,0)'
     ctx.fillRect(0, 0, 256, 64)
-    ctx.font        = 'bold 22px Space Grotesk, sans-serif'
+    ctx.font        = 'bold 22px Geist, sans-serif'
     ctx.fillStyle   = '#e8f4fd'
     ctx.textAlign   = 'center'
     ctx.fillText(node.label, 128, 40)
@@ -288,7 +288,7 @@ export default function NetworkGraph3D({ onNodeClick }) {
               </div>
               <div style={{
                 fontSize: 16, fontWeight: 700,
-                fontFamily: 'JetBrains Mono, monospace',
+                fontFamily: 'Geist Mono, monospace',
                 color: nodeColor(selectedNode),
               }}>
                 {selectedNode.label}
@@ -342,7 +342,7 @@ function MetricRow({ label, value, color, bar }) {
     <div style={{ marginBottom: 12 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
         <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{label}</span>
-        <span style={{ fontSize: 13, fontWeight: 700, color, fontFamily: 'JetBrains Mono, monospace' }}>{value}</span>
+        <span style={{ fontSize: 13, fontWeight: 700, color, fontFamily: 'Geist Mono, monospace' }}>{value}</span>
       </div>
       {bar !== undefined && (
         <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2 }}>

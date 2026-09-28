@@ -53,7 +53,7 @@ export default function Navbar() {
           fontSize: 11, fontWeight: 600, letterSpacing: '0.1em',
           color: '#ff3d5a', border: '1px solid rgba(255,61,90,0.4)',
           padding: '2px 8px', borderRadius: 4,
-          fontFamily: 'JetBrains Mono, monospace',
+          fontFamily: 'Geist Mono, monospace',
         }}>BETA</span>
       </div>
 
@@ -83,7 +83,7 @@ export default function Navbar() {
           boxShadow: '0 0 10px #00ff9d',
           animation: 'glow-pulse 2s infinite',
         }} />
-        <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>
+        <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontFamily: 'Geist Mono, monospace' }}>
           LIVE
         </span>
       </div>
