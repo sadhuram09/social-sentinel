@@ -45,7 +45,8 @@ class CausalChainService:
             'causal_link':      round(causal_link, 2),
             'risk_level':       risk,
             'shap_features':    d_res.get('shap', {}),
+            'attribution':      b_res.get('attribution', []),
             'timeline':         timeline,
             'lines_analyzed':   len(lines),
-            'models_used':      'XGBoost+TF-IDF' if b_res.get('ready') else 'keyword-fallback',
+            'models_used':      'LogisticRegression+TF-IDF' if b_res.get('ready') else 'keyword-fallback',
         }

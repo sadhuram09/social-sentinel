@@ -108,7 +108,7 @@ class StreamGenerator:
             'score':            round(score, 3),
             'time':             'now',
             'bullying_type':    b_res.get('type', ''),
-            'models_used':      'XGBoost' if b_res.get('ready') else 'fallback',
+            'models_used':      'LogisticRegression' if b_res.get('ready') else 'fallback',
         }
         self.sio.emit('new_tweet', payload)
 

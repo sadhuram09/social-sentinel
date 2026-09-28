@@ -32,4 +32,5 @@ def analyze_single():
         'bullying_type':    b.get('type', ''),
         'depression_score': d['score'],
         'shap':             d.get('shap', {}),
+        'attribution':      b.get('attribution', []),
     })

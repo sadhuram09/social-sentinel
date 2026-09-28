@@ -1,6 +1,8 @@
 import pickle, os, re
 import numpy as np
 
+from ml.preprocessor import clean
+
 ARTIFACTS = os.path.join(os.path.dirname(__file__), '..', '..', 'ml', 'artifacts')
 
 def _load(name):
@@ -15,12 +17,6 @@ READY      = all([_model, _tfidf])
 DEP_KW = ["don't deserve","tired of existing","what's the point","disappear",
           "nobody cares","empty","hopeless","give up","can't anymore",
           "want to die","no reason","exhausted","numb","alone"]
-
-def clean(text):
-    text = str(text).lower()
-    text = re.sub(r'http\S+', '', text)
-    text = re.sub(r'[^a-z\s]',' ', text)
-    return re.sub(r'\s+', ' ', text).strip()
 
 def predict(text: str) -> dict:
     """Returns depression_score (0-1) and top SHAP features."""
