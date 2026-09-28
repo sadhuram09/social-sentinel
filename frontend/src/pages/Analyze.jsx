@@ -4,6 +4,19 @@ import axios from 'axios'
 import BASE_URL from '../utils/api'
 
 
+// Display names for the classifier's labels (backend encoder classes).
+const CATEGORY_LABEL = {
+  age:                 'Age',
+  ethnicity:           'Ethnicity',
+  gender:              'Gender',
+  religion:            'Religion',
+  other_cyberbullying: 'Other',
+  not_cyberbullying:   'Not cyberbullying',
+  keyword_fallback:    'Unavailable — trained model not loaded',
+}
+
+const KEYWORD_NOTE = 'Keyword heuristic — distress model not yet trained'
+
 const EXAMPLE_THREAD = `@user_a: you're literally the dumbest person in this school lmao
 @target: please stop
 @user_b: fr nobody likes you
@@ -123,12 +136,21 @@ export default function Analyze() {
         <AnimatePresence>
           {result && (
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+              {/* Predicted category */}
+              <div className="glass-card" style={{ padding: 24, marginBottom: 20 }}>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>Predicted category · whole thread</div>
+                <div style={{ fontSize: 24, fontWeight: 700, color: result.bullying_type === 'not_cyberbullying' ? 'var(--text-secondary)' : '#ff3d5a' }}>
+                  {CATEGORY_LABEL[result.bullying_type] ?? result.bullying_type}
+                </div>
+              </div>
+
               {/* Score cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 20 }}>
                 {[
-                  { label: 'Bullying Score', value: result.bullying_score, color: '#ff3d5a' },
-                  { label: 'Distress Signal', value: result.depression_score, color: '#ffb347' },
-                  { label: 'Risk Index', value: result.causal_link, color: '#a855f7' },
+                  { label: 'Bullying Score', value: result.bullying_score, color: '#ff3d5a',
+                    note: result.models_used === 'keyword-fallback' ? 'Keyword fallback — trained model not loaded' : null },
+                  { label: 'Distress Signal', value: result.depression_score, color: '#ffb347', note: KEYWORD_NOTE },
+                  { label: 'Risk Index', value: result.causal_link, color: '#a855f7', note: KEYWORD_NOTE },
                 ].map(s => (
                   <div key={s.label} className="stat-card">
                     <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</div>
@@ -139,6 +161,9 @@ export default function Analyze() {
                       <motion.div initial={{ width: 0 }} animate={{ width: `${s.value * 100}%` }} transition={{ duration: 0.8 }}
                         style={{ height: '100%', background: s.color, borderRadius: 2 }} />
                     </div>
+                    {s.note && (
+                      <span className="risk-badge risk-medium" style={{ marginTop: 12 }}>{s.note}</span>
+                    )}
                   </div>
                 ))}
               </div>

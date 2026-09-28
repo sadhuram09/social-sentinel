@@ -9,7 +9,7 @@ const STATS = [
   { label: 'Held-out accuracy', value: '85.0%', color: '#00d4ff' },
   { label: 'Messages in dataset', value: '45,308', color: '#ff3d5a' },
   { label: 'ROC-AUC', value: '0.975', color: '#ffb347' },
-  { label: 'Abuse categories', value: '6', color: '#a855f7' },
+  { label: 'Categories', value: '6', color: '#a855f7' },
 ]
 
 export default function Home() {
@@ -97,7 +97,7 @@ export default function Home() {
           }}
         >
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#a855f7', display: 'inline-block' }} />
-          AI-Powered Causal Chain Detection
+          Six-category cyberbullying classifier
         </motion.div>
 
         {/* Headline */}
@@ -109,12 +109,12 @@ export default function Home() {
             letterSpacing: '-0.03em', marginBottom: 24,
           }}
         >
-          <span className="gradient-text">Bullying Triggers</span>
+          <span className="gradient-text">Know What a Message</span>
           <br />
-          <span style={{ color: 'var(--text-primary)' }}>Depression.</span>
+          <span style={{ color: 'var(--text-primary)' }}>Is Attacking.</span>
           <br />
           <span style={{ color: 'var(--text-secondary)', fontSize: '0.6em', fontWeight: 400 }}>
-            We Trace It, Visually.
+            Age. Gender. Ethnicity. Religion. Other. Or nothing at all.
           </span>
         </motion.h1>
 
@@ -126,8 +126,8 @@ export default function Home() {
             maxWidth: 580, lineHeight: 1.7, marginBottom: 48,
           }}
         >
-          A system that detects cyberbullying events and traces the distress
-          signals that follow — in real time, with 3D visualizations.
+          Every message is scored against 6 categories by a model that reaches
+          85.0% accuracy and 0.975 ROC-AUC on held-out data from a 45,308-message corpus.
         </motion.p>
 
         {/* CTAs */}
