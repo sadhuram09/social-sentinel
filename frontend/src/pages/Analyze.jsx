@@ -246,6 +246,36 @@ export default function Analyze() {
                   </p>
                 )}
               </div>
+
+              {/* Per-line scores — each line scored independently (Stage-1). No connectors or
+                  trend styling between rows: cross-message escalation is Stage-2, not built. */}
+              {result.timeline?.length > 1 && (
+                <div className="glass-card" style={{ padding: 24, marginTop: 20 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 6 }}>
+                    Per-message scores · Stage-1
+                  </h3>
+                  <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>
+                    Each line scored independently. Detecting escalation across messages is Stage-2, not yet built.
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {result.timeline.map((row, i) => (
+                      <div key={i} style={{
+                        display: 'flex', alignItems: 'center', gap: 16,
+                        background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(99,179,237,0.08)',
+                        borderRadius: 10, padding: '12px 16px',
+                      }}>
+                        <div style={{ flex: 1, fontSize: 13, color: 'var(--text-secondary)' }}>{row.text}</div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: row.bullying_type === 'not_cyberbullying' ? 'var(--text-secondary)' : '#ff3d5a' }}>
+                          {CATEGORY_LABEL[row.bullying_type] ?? row.bullying_type}
+                        </div>
+                        <div style={{ width: 48, fontSize: 13, fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-muted)', textAlign: 'right' }}>
+                          {Math.round(row.bullying_score * 100)}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

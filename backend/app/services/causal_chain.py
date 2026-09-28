@@ -35,6 +35,7 @@ class CausalChainService:
                 'score': round(max(bs, ds), 2),
                 'text':  line,
                 'bullying_score':   round(bs, 2),
+                'bullying_type':    br.get('type', ''),
                 'depression_score': round(ds, 2),
             })
 
