@@ -30,7 +30,6 @@ class CausalChainService:
             else:
                 etype = 'neutral'
             timeline.append({
-                'time':  f'T+{i * 15}m',
                 'type':  etype,
                 'score': round(max(bs, ds), 2),
                 'text':  line,

@@ -17,6 +17,12 @@ const CATEGORY_LABEL = {
 
 const KEYWORD_NOTE = 'Keyword heuristic — distress model not yet trained'
 
+// Category = most likely single class; bullying score = 1 − P(not_cyberbullying),
+// i.e. all five abuse classes combined. They disagree when abuse is split across types.
+const SCORE_CAPTION = 'All five abuse types combined'
+const SPLIT_NOTE = "Abuse probability split across types — no single type outranks 'Not cyberbullying'."
+const isSplit = (type, score) => type === 'not_cyberbullying' && score >= 0.5
+
 const EXAMPLE_THREAD = `@user_a: you're literally the dumbest person in this school lmao
 @target: please stop
 @user_b: fr nobody likes you
@@ -138,16 +144,19 @@ export default function Analyze() {
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
               {/* Predicted category */}
               <div className="glass-card" style={{ padding: 24, marginBottom: 20 }}>
-                <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>Predicted category · whole thread</div>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>Most likely category · whole thread</div>
                 <div style={{ fontSize: 24, fontWeight: 700, color: result.bullying_type === 'not_cyberbullying' ? 'var(--text-secondary)' : '#ff3d5a' }}>
                   {CATEGORY_LABEL[result.bullying_type] ?? result.bullying_type}
                 </div>
+                {isSplit(result.bullying_type, result.bullying_score) && (
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 6 }}>{SPLIT_NOTE}</div>
+                )}
               </div>
 
               {/* Score cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 20 }}>
                 {[
-                  { label: 'Bullying Score', value: result.bullying_score, color: '#ff3d5a',
+                  { label: 'Bullying Score', value: result.bullying_score, color: '#ff3d5a', caption: SCORE_CAPTION,
                     note: result.models_used === 'keyword-fallback' ? 'Keyword fallback — trained model not loaded' : null },
                   { label: 'Distress Signal', value: result.depression_score, color: '#ffb347', note: KEYWORD_NOTE },
                   { label: 'Risk Index', value: result.causal_link, color: '#a855f7', note: KEYWORD_NOTE },
@@ -157,6 +166,9 @@ export default function Analyze() {
                     <div style={{ fontSize: 36, fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>
                       {Math.round(s.value * 100)}%
                     </div>
+                    {s.caption && (
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{s.caption}</div>
+                    )}
                     <div style={{ marginTop: 8, height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2 }}>
                       <motion.div initial={{ width: 0 }} animate={{ width: `${s.value * 100}%` }} transition={{ duration: 0.8 }}
                         style={{ height: '100%', background: s.color, borderRadius: 2 }} />
@@ -260,17 +272,27 @@ export default function Analyze() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {result.timeline.map((row, i) => (
                       <div key={i} style={{
-                        display: 'flex', alignItems: 'center', gap: 16,
                         background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(99,179,237,0.08)',
                         borderRadius: 10, padding: '12px 16px',
                       }}>
-                        <div style={{ flex: 1, fontSize: 13, color: 'var(--text-secondary)' }}>{row.text}</div>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: row.bullying_type === 'not_cyberbullying' ? 'var(--text-secondary)' : '#ff3d5a' }}>
-                          {CATEGORY_LABEL[row.bullying_type] ?? row.bullying_type}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                          <div style={{ flex: 1, fontSize: 13, color: 'var(--text-secondary)' }}>{row.text}</div>
+                          <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: 13, fontWeight: 600, color: row.bullying_type === 'not_cyberbullying' ? 'var(--text-secondary)' : '#ff3d5a' }}>
+                              {CATEGORY_LABEL[row.bullying_type] ?? row.bullying_type}
+                            </div>
+                            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Most likely category</div>
+                          </div>
+                          <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: 13, fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-muted)' }}>
+                              {Math.round(row.bullying_score * 100)}%
+                            </div>
+                            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{SCORE_CAPTION}</div>
+                          </div>
                         </div>
-                        <div style={{ width: 48, fontSize: 13, fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-muted)', textAlign: 'right' }}>
-                          {Math.round(row.bullying_score * 100)}%
-                        </div>
+                        {isSplit(row.bullying_type, row.bullying_score) && (
+                          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 8 }}>{SPLIT_NOTE}</div>
+                        )}
                       </div>
                     ))}
                   </div>
