@@ -59,7 +59,7 @@ export default function Analyze() {
           Paste a Conversation
         </h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: 40 }}>
-          We detect bullying events, target responses, and trace how a thread escalates.
+          Paste a message or a short thread. The model classifies it into one of six categories and shows which words drove the decision.
         </p>
 
         {/* Input */}
@@ -172,17 +172,18 @@ export default function Analyze() {
               <div className="glass-card" style={{ padding: 24, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 20 }}>
                 <div style={{
                   width: 56, height: 56, borderRadius: '50%',
-                  background: result.risk_level === 'HIGH' ? 'rgba(255,61,90,0.15)' : 'rgba(255,179,71,0.15)',
-                  border: `2px solid ${result.risk_level === 'HIGH' ? '#ff3d5a' : '#ffb347'}`,
+                  background: result.risk_level === 'HIGH' ? 'rgba(255,61,90,0.15)' : result.risk_level === 'LOW' ? 'rgba(0,255,157,0.1)' : 'rgba(255,179,71,0.15)',
+                  border: `2px solid ${result.risk_level === 'HIGH' ? '#ff3d5a' : result.risk_level === 'LOW' ? 'rgba(0,255,157,0.25)' : '#ffb347'}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 24,
-                  boxShadow: result.risk_level === 'HIGH' ? 'var(--glow-red)' : 'var(--glow-amber)',
+                  boxShadow: result.risk_level === 'HIGH' ? 'var(--glow-red)' : result.risk_level === 'LOW' ? 'none' : 'var(--glow-amber)',
+                  color: 'var(--accent-green)',
                 }}>
-                  {result.risk_level === 'HIGH' ? '🚨' : '⚠️'}
+                  {result.risk_level === 'HIGH' ? '🚨' : result.risk_level === 'LOW' ? '✓' : '⚠️'}
                 </div>
                 <div>
                   <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>Overall Risk Level</div>
-                  <div style={{ fontSize: 24, fontWeight: 700, color: result.risk_level === 'HIGH' ? '#ff3d5a' : '#ffb347' }}>
+                  <div style={{ fontSize: 24, fontWeight: 700, color: result.risk_level === 'HIGH' ? '#ff3d5a' : result.risk_level === 'LOW' ? 'var(--accent-green)' : '#ffb347' }}>
                     {result.risk_level} RISK
                   </div>
                   <span className="risk-badge risk-medium" style={{ marginTop: 8 }}>Includes keyword distress heuristic</span>
